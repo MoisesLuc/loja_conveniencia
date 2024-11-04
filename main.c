@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
 #include "modulos/gerais/gerais.h"
 #include "modulos/produtos/produtos.h"
 #include "modulos/clientes/clientes.h"
@@ -72,3 +73,61 @@ int main(void){
 
     return 0;
 }
+
+
+
+int valida_cpf(const char *cpf){
+    if (strlen(cpf) != 11){
+        return 0;
+}
+    for(int i=0; i<11; i++){
+        if(!isdigite(cpf[1])){
+            return 0;
+        }
+}
+    int iguais = 1;
+    for (int i = 1; i < 11; i++) {
+        if (cpf[i] != cpf[0]) {
+            iguais = 0;
+            break;
+        }
+    }
+    if (iguais) {
+        return 0;
+    }
+
+    int soma = 0;
+    for (int i = 0; i < 9; i++) {
+        soma += (cpf[i] - '0') * (10 - i);
+    }
+    int primeiroDigito = (soma * 10) % 11;
+    if (primeiroDigito == 10) {
+        primeiroDigito = 0;
+    }
+
+    
+    if (primeiroDigito != (cpf[9] - '0')) {
+        return 0;
+    }
+
+    soma = 0;
+    for (int i = 0; i < 10; i++) {
+        soma += (cpf[i] - '0') * (11 - i);
+    }
+    int segundoDigito = (soma * 10) % 11;
+    if (segundoDigito == 10) {
+        segundoDigito = 0;
+    }
+
+    if (segundoDigito != (cpf[10] - '0')) {
+        return 0;
+    }
+
+    return 1;  
+}
+// Função para validar CPF, a função foi tirada do chatGPT.
+
+
+
+
+
