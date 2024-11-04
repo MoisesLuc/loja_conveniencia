@@ -127,6 +127,30 @@ int valida_cpf(const char *cpf){
 }
 // Função para validar CPF, a função foi tirada do chatGPT.
 
+int valida_email(const char *email){
+
+    const char *arr = strchr(email, '@');
+
+    if(arr == NULL || arr == email || arr == email + strlen(email) - 1){
+        return 0;
+    }
+
+    const char *pont = strchr(arr + 1, '.');
+    if (pont == NULL || pont == arr + 1 || pont == email + strlen(email) - 1) {
+        return 0;
+    }
+
+    for (const char *p = email; *p; p++) {
+        if (!isalnum(*p) && *p != '.' && *p != '@' && *p != '-' && *p != '_') {
+            return 0;
+        }
+    }
+
+    return 1;
+
+}
+//Função para valiadr E-mail, inpirada num código do chatGPT!
+
 
 
 
