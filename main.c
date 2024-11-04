@@ -151,6 +151,27 @@ int valida_email(const char *email){
 }
 //Função para valiadr E-mail, inpirada num código do chatGPT!
 
+int valida_celular(const char *celular) {
+    
+    if (strlen(celular) != 11) {
+        return 0;
+    }
+
+    
+    for (int i = 0; i < 11; i++) {
+        if (!isdigit(celular[i])) {
+            return 0;
+        }
+    }
+
+    
+    if (celular[2] != '9') {
+        return 0;
+    }
+
+    return 1;  
+}
+//Função para validar o número do celular, adaptada do chatGPT
 
 
 
