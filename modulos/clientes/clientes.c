@@ -27,7 +27,7 @@ char tela_modulo_clientes(void){
 }
 
 void tela_cadastrar_cliente(void){
-    char cpf[12], nomec[52], celular[15], email[52];
+    char cpf[12], nomec[52], celular[15], email[52], ender[130];
 
     system("clear||cls");
     printf("\n");
@@ -38,15 +38,23 @@ void tela_cadastrar_cliente(void){
     printf("||      => CPF do cliente: ");
     scanf("%s", cpf);
     fgets(cpf, 12, stdin);
+    printf("\n");
     printf("||      => Nome do Cliente: ");
     scanf("%s", nomec);
     fgets(nomec, 52, stdin);
+    printf("\n");
     printf("||      => Celular do cliente: ");
     scanf("%s", celular);
     fgets(celular, 15, stdin);
+    printf("\n");
     printf("||      => E-mail do cliente: ");
     scanf("%s", email);
     fgets(email, 52, stdin);
+    printf("\n");
+    printf("||      => Endereço do cliente:");
+    scanf("%s", ender);
+    fgets(ender, 130, stdin);
+    printf("\n");
     printf("||\n");
     printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
     printf("\n");
