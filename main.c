@@ -7,6 +7,9 @@
 #include "modulos/clientes/clientes.h"
 #include "modulos/vendas/vendas.h"
 #include "modulos/entregas/entregas.h"
+#include "modulos/validacoes/endereco/validaEndereco.h"
+#include "modulos/validacoes/clientes/validaClientes.h"
+
 
 int main(void){
     char op;

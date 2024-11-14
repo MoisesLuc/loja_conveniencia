@@ -1,0 +1,1 @@
+int validaEndereco(const char *rua, const char *bairro, const char *numero);
