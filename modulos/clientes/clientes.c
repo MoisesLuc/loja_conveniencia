@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include "modulos/validacoes/clientes/validaClientes.h"
 
 char tela_modulo_clientes(void){
     char op;
@@ -38,6 +39,10 @@ void tela_cadastrar_cliente(void){
     printf("||      => CPF do cliente: ");
     scanf("%s", cpf);
     fgets(cpf, 12, stdin);
+    if (!valida_cpf(cpf)) {
+        printf("CPF inválido. Operação cancelada.\n");
+        return;
+    }
     printf("\n");
     printf("||      => Nome do Cliente: ");
     scanf("%s", nomec);
@@ -46,10 +51,18 @@ void tela_cadastrar_cliente(void){
     printf("||      => Celular do cliente: ");
     scanf("%s", celular);
     fgets(celular, 15, stdin);
+    if (!valida_celular(celular)) {
+        printf("Celular inválido. Operação cancelada.\n");
+        return;
+    }
     printf("\n");
     printf("||      => E-mail do cliente: ");
     scanf("%s", email);
     fgets(email, 52, stdin);
+    if (!valida_email(email)) {
+        printf("E-mail inválido. Operação cancelada.\n");
+            return;
+        }
     printf("\n");
     printf("||      => Rua do cliente:");
     scanf("%s", rua);
