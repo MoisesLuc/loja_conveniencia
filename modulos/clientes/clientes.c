@@ -25,7 +25,7 @@ Cliente* cadastrar_cliente(void) {
     printf("\n=============== Cadastrar Clientes ==============\n");
     printf("\n");
     printf("    Informe o nome do cliente: ");
-    scanf(" %5[^\n]", cln->nome);
+    scanf(" %54[^\n]", cln->nome);
     printf("    Informe o CPF do cliente: ");
     scanf(" %10[^\n]", cln->cpf);
     printf("    Informe o e-mail do cliente: ");
@@ -120,4 +120,30 @@ void exclui_Clino(Cliente* clnLido) {
  }
     fclose(fp);
  }
+}
+
+void regrava_cliente(Cliente* cln) {
+	int achou;
+	FILE* fp;
+	Cliente* clnLido;
+
+	clnLido = (Cliente*) malloc(sizeof(Cliente));
+	fp = fopen("cliente.dat", "r+b");
+	if (fp == NULL) {
+		printf("\nCliente não encontrado!\n");
+	}
+	while(!feof(fp)) {
+	achou = 0;
+	while(fread(clnLido, sizeof(Cliente), 1, fp) && !achou) {
+		fread(clnLido, sizeof(Cliente), 1, fp);
+		if (strcmp(clnLido->cpf, cln->cpf) == 0) {
+			achou = 1;
+			fseek(fp, -1*sizeof(Cliente), SEEK_CUR);
+        	fwrite(cln, sizeof(Cliente), 1, fp);
+			break;
+		}
+	}
+	fclose(fp);
+	free(clnLido);
+}
 }
