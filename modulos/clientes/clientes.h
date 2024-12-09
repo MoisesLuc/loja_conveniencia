@@ -16,4 +16,5 @@ Cliente* busca_cliente(void);
 void alterar_cliente(void);
 void lista_cliente(void);
 void excluir_cliente(Cliente*);
+void exclui_Cliente(Cliente* clnLido);
 
