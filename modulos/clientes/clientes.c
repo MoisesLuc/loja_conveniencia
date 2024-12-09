@@ -1,173 +1,136 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include "modulos/validacoes/clientes/validaClientes.h"
-#include "modulos/validacoes/endereco/validaEndereco.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-char tela_modulo_clientes(void){
-    char op;
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Módulo Clientes         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      1 - Cadastrar Cliente                                     ||\n");
-    printf("||      2 - Verificar Cliente                                     ||\n");
-    printf("||      3 - Alterar Cliente                                       ||\n");
-    printf("||      4 - Excluir Cliente                                       ||\n");
-    printf("||      0 - Sair                                                  ||\n");
-    printf("||                                                                ||\n");    
-    printf("||    => Escolha a opção desejada: ");
-    scanf("%c", &op);
-    getchar();
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
+typedef struct cliente Cliente;
+struct cliente {
+    char nome[55];
+    char cpf[12];
+    char email[55];
+    char celular[11];
+    char status;
+};
+
+int modulo_clientes(void);
+Cliente* cadastrar_cliente(void);
+void grava_cliente(Cliente*);
+void exibe_cliente(Cliente*);
+Cliente* busca_cliente(void);
+void alterar_cliente(void);
+void lista_cliente(void);
+void excluir_cliente(Cliente*);
+
+int main(void) {
+    Cliente* x;
+    int opcao;
+    do {
+        opcao = modulo_clientes();
+        switch (opcao) {
+            case 1:
+                x = cadastrar_cliente();
+                grava_cliente(x);
+                free(x);
+                break;
+            case 2:
+                x = busca_cliente();
+                if (x != NULL) {
+                    exibe_cliente(x);
+                    free(x);
+                } else {
+                    printf("Cliente não encontrado!\n");
+                }
+                break;
+            case 3:
+                printf("Função de alteração ainda não implementada.\n");
+                break;
+            case 4:
+                printf("Função de exclusão ainda não implementada.\n");
+                break;
+            case 0:
+                printf("Saindo do programa...\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+    } while (opcao != 0);
+    return 0;
+}
+
+int modulo_clientes(void) {
+    int op;
+    printf("\n============ Módulo Clientes =============\n");
+    printf("    1 - Cadastrar cliente\n");
+    printf("    2 - Pesquisar cliente\n");
+    printf("    3 - Alterar cliente\n");
+    printf("    4 - Excluir cliente\n");
+    printf("    0 - Sair\n");
+    printf("    Escolha uma opção: ");
+    scanf("%d", &op);
     getchar();
     return op;
 }
 
-void tela_cadastrar_cliente(void){
-    char cpf[12], nomec[52], celular[15], email[52], rua[52], bairro[20], numc[4];
-
-    system("clear||cls");
+Cliente* cadastrar_cliente(void) {
+    Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
+    printf("\n=============== Módulo Clientes ==============\n");
     printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        Cadastrar Cliente         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => CPF do cliente: ");
-    scanf("%s", cpf);
-    fgets(cpf, 12, stdin);
+    printf("    Informe o nome do cliente: ");
+    scanf(" %54[^\n]", cln->nome);
+    printf("    Informe o CPF do cliente: ");
+    scanf(" %11[^\n]", cln->cpf);
+    printf("    Informe o e-mail do cliente: ");
+    scanf(" %54[^\n]", cln->email);
+    printf("    Informe o celular do cliente: ");
+    scanf(" %10[^\n]", cln->celular);
+    cln->status = 'c';
+    return cln;
+}
 
-    if (!valida_cpf(cpf)) {
-        printf("CPF inválido. Operação cancelada.\n");
-        return;
+void exibe_cliente(Cliente* cl) {
+    if (cl == NULL || cl->status == 'x') {
+        printf("Cliente não encontrado ou excluído.\n");
+    } else {
+        printf("\n============== Cliente Cadastrado ==============\n");
+        printf("    Nome: %s\n", cl->nome);
+        printf("    CPF: %s\n", cl->cpf);
+        printf("    E-mail: %s\n", cl->email);
+        printf("    Celular: %s\n", cl->celular);
+        printf("    Situação: %s\n", (cl->status == 'c') ? "Cadastrado" : "Desconhecida");
+    }
+}
+
+void grava_cliente(Cliente* cln) {
+    FILE* fp = fopen("clientes.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para gravação.\n");
+        exit(1);
+    }
+    fwrite(cln, sizeof(Cliente), 1, fp);
+    fclose(fp);
+}
+
+Cliente* busca_cliente(void) {
+    FILE* fp = fopen("clientes.dat", "rb");
+    Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
+    char cpff[12];
+
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(cln);
+        return NULL;
     }
 
-    printf("\n");
-    printf("||      => Nome do Cliente: ");
-    scanf("%s", nomec);
-    fgets(nomec, 52, stdin);
-    printf("\n");
-    printf("||      => Celular do cliente: ");
-    scanf("%s", celular);
-    fgets(celular, 15, stdin);
+    printf("\nInforme o CPF do cliente: ");
+    scanf(" %11[^\n]", cpff);
 
-    if (!valida_celular(celular)) {
-        printf("Celular inválido. Operação cancelada.\n");
-        return;
-    }
-
-    printf("\n");
-    printf("||      => E-mail do cliente: ");
-    scanf("%s", email);
-    fgets(email, 52, stdin);
-
-    if (!valida_email(email)) {
-        printf("E-mail inválido. Operação cancelada.\n");
-            return;
+    while (fread(cln, sizeof(Cliente), 1, fp)) {
+        if (strcmp(cln->cpf, cpff) == 0 && cln->status != 'x') {
+            fclose(fp);
+            return cln;
         }
-
-    printf("\n");
-    printf("||      => Rua do cliente:");
-    scanf("%s", rua);
-    fgets(rua, 52, stdin);
-    printf("\n");
-    printf("||      => Bairro do cliente:");
-    scanf("%s", bairro);
-    fgets(bairro, 20, stdin);
-    printf("\n");
-    printf("||      => Número da casa do cliente:");
-    scanf("%s", numc);
-    fgets(numc, 4, stdin);
-
-    if (!validaEndereco(rua, bairro, numc)) {
-        printf("Endereço inválido. Operação cancelada.\n");
-        return;
     }
 
-    printf("\n");
-    printf("||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
+    fclose(fp);
+    free(cln);
+    return NULL;
 }
-
-void tela_verificar_cliente(void){
-    char cpf[12];
-
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        verificar cliente         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => CPF do cliente: ");
-    scanf("%s", cpf);
-    fgets(cpf, 12, stdin);
-    printf("||\n");
-    printf("||      => Nome do Cliente: XXXXXXXX\n");
-    printf("||      => CPF do Cliente: XXXXXXXX\n");
-    printf("||      => Celular do Cliente: XXXXXXXX\n");
-    printf("||      => E-mail do Cliente: XXXXXXXX\n");
-    printf("||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
-}
-
-void tela_alterar_cliente(void){
-    
-    char cpf[12], nomec[52], celular[15], email[52];
-
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Alterar Cliente         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => CPF dop cliente: ");
-    scanf("%s", cpf);
-    fgets(cpf, 12, stdin);
-    printf("\n");
-    printf("|| ______________________________________________________________ \n");
-    printf("||\n");
-    printf("||      => (novo) Nome do cliente: ");
-    scanf("%s", nomec);
-    fgets(nomec, 52, stdin);
-    printf("||      => (novo) Celular do cliente: ");
-    scanf("%s", celular);
-    fgets(celular, 15, stdin);
-    printf("||      => (novo) E-mail do cliente: ");
-    scanf("%s", email);
-    fgets(email, 52, stdin);
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
-}
-
-void tela_excluir_cliente(void){
-    char cpf[12];
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Excluir Cliente         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => CPF do cliente: ");
-    scanf("%s", cpf);
-    fgets(cpf, 12, stdin);
-    printf("||                                                                ||\n");
-    printf("||      => Cliente excluído!                                      ||\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
-}
-
