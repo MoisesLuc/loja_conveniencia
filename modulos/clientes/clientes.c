@@ -48,7 +48,7 @@ void grava_cliente(Cliente* cln) {
 Cliente* busca_cliente(void) {
     FILE* fp = fopen("clientes.dat", "rb");
     Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
-    char cpff[12];
+    char cpf[11];
 
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
@@ -57,10 +57,10 @@ Cliente* busca_cliente(void) {
     }
 
     printf("\nInforme o CPF do cliente: ");
-    scanf(" %11[^\n]", cpff);
+    scanf(" %10[^\n]", cpf);
 
     while (fread(cln, sizeof(Cliente), 1, fp)) {
-        if (strcmp(cln->cpf, cpff) == 0 && cln->status != 'x') {
+        if (strcmp(cln->cpf, cpf) == 0 && cln->status != 'x') {
             fclose(fp);
             return cln;
         }
@@ -91,7 +91,7 @@ void exibe_cliente(Cliente* cl) {
 void exclui_cliente(Cliente* clnLido) {
     FILE* fp;
     Cliente* clnArq;
-    
+
     int achou = 0;
     if (clnLido == NULL) {
         printf("O Cliente informado não existe!\n");
@@ -107,9 +107,9 @@ void exclui_cliente(Cliente* clnLido) {
 
         while(!feof(fp)) {
             fread(clnArq, sizeof(Cliente), 1, fp);
-            if ((clnArq->cpf == clnLido->cpf) && (clnArq->status != 'x')) {
+            if ((strcmp(clnArq->cpf, clnLido->cpf) == 0) && (clnArq->status != 'd')) {
                 achou = 1;
-                clnArq->status = 'x';
+                clnArq->status = 'd';
                 fseek(fp, -1*sizeof(Cliente), SEEK_CUR);
                 fwrite(clnArq, sizeof(Cliente), 1, fp);
                 printf("\nCliente excluído!\n");

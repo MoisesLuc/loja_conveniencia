@@ -9,9 +9,9 @@
 
 int main(void){
     char  op;
+    Cliente* cl;
     do{
         op = menu_principal();
-        Cliente* cl;
         if(op == '1'){
             char op_produto = tela_modulo_produtos();
             if(op_produto == '1'){
