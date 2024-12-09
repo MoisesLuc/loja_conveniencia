@@ -148,8 +148,7 @@ void atualiza_cliente(void) {
 	Cliente* cln;
 	char* cpf;
 
-    cpf = tela_atualiza_cliente();
-	cln = busca_cliente(cpf);
+	cln = busca_cliente();
 	if (cln == NULL) {
     	printf("\n\nCliente não encontrado!\n\n");
   	} else {
@@ -161,22 +160,3 @@ void atualiza_cliente(void) {
 	free(cpf);
 }
 
-char* tela_atualiza_cliente(void) {
-	char* cpf;
-
-	cpf = (char*) malloc(12*sizeof(char));
-	
-	printf("___________________________________________________________________________\n");
-	printf("||                                                                       ||\n");
-	printf("||           = = = = = = = = Atualizar Cliente = = = = = = = =           ||\n");
-	printf("||                                                                       ||\n");
-	printf("||           Informe a CPF do Cliente: ");
-	scanf("%10[^\n]", cpf);
-	getchar();
-	printf("||                                                                       ||\n");
-	printf("||                                                                       ||\n");
-	printf("||_______________________________________________________________________||\n");
-	printf("\n");
-	delay(1);
-  	return cpf;
-}
