@@ -1,6 +1,3 @@
-#ifndef CLIENTE_H
-#define CLIENTE_H
-
 typedef struct cliente Cliente;
 
 struct cliente {
@@ -11,7 +8,7 @@ struct cliente {
     char status;
 };
 
-int modulo_clientes(void);
+char modulo_clientes(void);
 Cliente* cadastrar_cliente(void);
 void grava_cliente(Cliente*);
 void exibe_cliente(Cliente*);
@@ -20,4 +17,3 @@ void alterar_cliente(void);
 void lista_cliente(void);
 void excluir_cliente(Cliente*);
 
-#endif

@@ -3,8 +3,8 @@
 #include <string.h>
 #include "clientes.h"
 
-int modulo_clientes(void) {
-    int op;
+char modulo_clientes(void) {
+    char op;
     system("clear||cls");
     printf("\n");
     printf("\n============ Módulo Clientes =============\n");
@@ -14,21 +14,20 @@ int modulo_clientes(void) {
     printf("    4 - Excluir cliente\n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");
-    scanf("%d", &op);
+    scanf("%c", &op);
     getchar();
     return op;
 }
 
 Cliente* cadastrar_cliente(void) {
     Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
-    system("clear||cls");
     printf("\n");
     printf("\n=============== Cadastrar Clientes ==============\n");
     printf("\n");
     printf("    Informe o nome do cliente: ");
-    scanf(" %54[^\n]", cln->nome);
+    scanf(" %5[^\n]", cln->nome);
     printf("    Informe o CPF do cliente: ");
-    scanf(" %11[^\n]", cln->cpf);
+    scanf(" %10[^\n]", cln->cpf);
     printf("    Informe o e-mail do cliente: ");
     scanf(" %54[^\n]", cln->email);
     printf("    Informe o celular do cliente: ");
@@ -73,7 +72,7 @@ Cliente* busca_cliente(void) {
 }
 
 void exibe_cliente(Cliente* cl) {
-    if (cl == NULL || cl->status == 'x') {
+    if (cl == NULL || cl->status == 'd') {
         printf("Cliente não encontrado ou excluído.\n");
     } else {
         system("clear||cls");
