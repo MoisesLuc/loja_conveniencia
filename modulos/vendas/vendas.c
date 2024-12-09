@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "vendas.h"
 
 char tela_modulo_vendas(void){
     char op;
