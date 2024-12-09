@@ -1,7 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "produtos.h"
 
-char tela_modulo_produtos(void){
+char tela_modulo_produtos(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -16,8 +18,7 @@ char tela_modulo_produtos(void){
     printf("||      0 - Sair                                                  ||\n");
     printf("||                                                                ||\n");    
     printf("||    => Escolha a opção desejada: ");
-    scanf("%c", &op);
-    getchar();
+    scanf(" %c", &op); 
     printf("||                                                                ||\n");
     printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
     printf("\n");
@@ -26,50 +27,47 @@ char tela_modulo_produtos(void){
     return op;
 }
 
-void tela_cadastrar_produto(void){
+void tela_cadastrar_produto(void) {
     char nome[20], codigo[10], marca[15], preco[8];
-    
-
     system("clear||cls");
     printf("\n");
     printf("|| ______________________________________________________________ ||\n");
     printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        cadastrar produto         = = = = = = = ||\n");
+    printf("|| = = = = = = = =        Cadastrar Produto       = = = = = = = = ||\n");
     printf("||                                                                ||\n");
     printf("||      => Nome do produto: ");
-    scanf("%s", nome);
     fgets(nome, 20, stdin);
-    printf("||      => Codigo do produto: ");
-    scanf("%s", codigo);
+    strtok(nome, "\n"); 
+    printf("||      => Código do produto: ");
     fgets(codigo, 10, stdin);
+    strtok(codigo, "\n");
     printf("||      => Marca do produto: ");
-    scanf("%s", marca);
     fgets(marca, 15, stdin);
+    strtok(marca, "\n");
     printf("||      => Preço do produto: ");
-    scanf("%s", preco);
     fgets(preco, 8, stdin);
-    printf("||\n");
+    strtok(preco, "\n");
+    printf("||                                                                ||\n");
     printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
     printf("\n");
     printf("| Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
-void tela_verificar_produto(void){
+void tela_verificar_produto(void) {
     char codigo[10];
-
     system("clear||cls");
     printf("\n");
     printf("|| ______________________________________________________________ ||\n");
     printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        verificar produto         = = = = = = = ||\n");
+    printf("|| = = = = = = = =        Verificar Produto       = = = = = = = = ||\n");
     printf("||                                                                ||\n");
-    printf("||      => Codigo do produto: ");
-    scanf("%s", codigo);
-    fgets(codigo, 8, stdin);
+    printf("||      => Código do produto: ");
+    fgets(codigo, 10, stdin);
+    strtok(codigo, "\n");
     printf("||\n");
     printf("||      => Nome do produto: XXXXXXXX\n");
-    printf("||      => Codigo do produto: XXXXXXXX\n");
+    printf("||      => Código do produto: XXXXXXXX\n");
     printf("||      => Marca do produto: XXXXXXXX\n");
     printf("||      => Preço do produto: XXXXXXXX\n");
     printf("||\n");
@@ -79,50 +77,47 @@ void tela_verificar_produto(void){
     getchar();
 }
 
-void tela_alterar_produto(void){
+void tela_alterar_produto(void) {
     char nome[20], codigo[10], marca[15], preco[8];
-    
-
     system("clear||cls");
     printf("\n");
     printf("|| ______________________________________________________________ ||\n");
     printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Alterar Produto         = = = = = = = ||\n");
+    printf("|| = = = = = = = =          Alterar Produto       = = = = = = = = ||\n");
     printf("||                                                                ||\n");
-    printf("||      => Codigo do produto: ");
-    scanf("%s", codigo);
-    fgets(codigo, 8, stdin);
+    printf("||      => Código do produto: ");
+    fgets(codigo, 10, stdin);
+    strtok(codigo, "\n");
     printf("\n");
     printf("|| ______________________________________________________________ \n");
     printf("||\n");
     printf("||      => Nome do produto: ");
-    scanf("%s", nome);
     fgets(nome, 20, stdin);
+    strtok(nome, "\n");
     printf("||      => Marca do produto: ");
-    scanf("%s", marca);
     fgets(marca, 15, stdin);
+    strtok(marca, "\n");
     printf("||      => Preço do produto: ");
-    scanf("%s", preco);
     fgets(preco, 8, stdin);
+    strtok(preco, "\n");
     printf("||                                                                ||\n");
     printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
     printf("\n");
     printf("| Tecle <ENTER> para continuar...\n");
     getchar();
-
 }
 
-void tela_excluir_produto(void){
+void tela_excluir_produto(void) {
     char codigo[10];
     system("clear||cls");
     printf("\n");
     printf("|| ______________________________________________________________ ||\n");
     printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Excluir Produto         = = = = = = = ||\n");
+    printf("|| = = = = = = = =          Excluir Produto       = = = = = = = = ||\n");
     printf("||                                                                ||\n");
-    printf("||      => Codigo do produto: ");
-    scanf("%s", codigo);
+    printf("||      => Código do produto: ");
     fgets(codigo, 10, stdin);
+    strtok(codigo, "\n");
     printf("||                                                                ||\n");
     printf("||      => Produto excluído!                                      ||\n");
     printf("|| ______________________________________________________________ ||\n");
