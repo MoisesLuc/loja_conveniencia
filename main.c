@@ -35,9 +35,13 @@ int main(void){
                 exibe_cliente(cl);
                 free(cl);
             }else if(op_clientes == '3'){
-                printf("Função em manutenção");    
+                cl = busca_cliente();
+                regrava_cliente(cl);  
+                free(cl);  
             }else if(op_clientes == '4'){
-                printf("Função em manutenção");    
+                cl = busca_cliente();
+                exclui_cliente(cl);
+                free(cl);
             }
         }else if(op == '3'){
             char op_vendas = tela_modulo_vendas();

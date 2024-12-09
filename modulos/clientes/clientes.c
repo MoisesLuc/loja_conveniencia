@@ -88,10 +88,10 @@ void exibe_cliente(Cliente* cl) {
     }
 }
 
-void exclui_Clino(Cliente* clnLido) {
+void exclui_cliente(Cliente* clnLido) {
     FILE* fp;
     Cliente* clnArq;
-    int cpf;
+    
     int achou = 0;
     if (clnLido == NULL) {
         printf("O Cliente informado não existe!\n");
