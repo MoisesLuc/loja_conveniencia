@@ -6,7 +6,6 @@
 #include "modulos/produtos/produtos.h"
 #include "modulos/clientes/clientes.h"
 #include "modulos/vendas/vendas.h"
-#include "modulos/entregas/entregas.h"
 
 int main(void){
     char  op;
@@ -25,6 +24,7 @@ int main(void){
                 tela_excluir_produto();
             }
         }else if(op == '2'){
+            
             char op_clientes = modulo_clientes();
             if(op_clientes == '1'){
                 cl = cadastrar_cliente();
@@ -50,22 +50,16 @@ int main(void){
             }else if(op_vendas == '4'){
                 tela_exibir_venda();
             }
+        
         }else if(op == '4'){
-            char op_entregas = tela_entregas();
-            if(op_entregas == '1'){
-                tela_entregas_pendentes();
-            }else if(op_entregas == '2'){
-                tela_confirmcancel_entregas();
-            }
-        }else if(op == '5'){
             system("clear||cls");
             printf("\n");
             printf("Menu em construção\n");
             printf("| Tecle <ENTER> para continuar...\n");
             getchar();
-        }else if(op == '6'){
+        }else if(op == '5'){
             informacoes_gerais();
-        }else if(op == '7'){
+        }else if(op == '6'){
             informacoes_da_equipe();
         }else if(op == '0'){
             printf("fim\n");

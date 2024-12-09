@@ -1,7 +1,7 @@
 TARGET = program
 
 CC = gcc
-CFLAGS = -Wall -Wextra -I./modulos/gerais -I./modulos/produtos -I./modulos/clientes -I./modulos/vendas -I./modulos/entregas -I./modulos/validacoes/endereco -I./modulos/validacoes/clientes
+CFLAGS = -Wall -Wextra -I./modulos/gerais -I./modulos/produtos -I./modulos/clientes -I./modulos/vendas -I./modulos/validacoes/endereco -I./modulos/validacoes/clientes
 
 SRCDIR = .
 SOURCES = main.c \
@@ -9,7 +9,6 @@ SOURCES = main.c \
           modulos/produtos/produtos.c \
           modulos/clientes/clientes.c \
           modulos/vendas/vendas.c \
-          modulos/entregas/entregas.c \
    
 
 OBJECTS = $(SOURCES:.c=.o)
