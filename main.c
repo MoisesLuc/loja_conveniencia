@@ -35,8 +35,7 @@ int main(void){
                 exibe_cliente(cl);
                 free(cl);
             }else if(op_clientes == '3'){
-                cl = busca_cliente();
-                regrava_cliente(cl);  
+                atualizar_cliente(); 
                 free(cl);  
             }else if(op_clientes == '4'){
                 cl = busca_cliente();
@@ -54,16 +53,9 @@ int main(void){
             }else if(op_vendas == '4'){
                 tela_exibir_venda();
             }
-        
         }else if(op == '4'){
-            system("clear||cls");
-            printf("\n");
-            printf("Menu em construção\n");
-            printf("| Tecle <ENTER> para continuar...\n");
-            getchar();
-        }else if(op == '5'){
             informacoes_gerais();
-        }else if(op == '6'){
+        }else if(op == '5'){
             informacoes_da_equipe();
         }else if(op == '0'){
             printf("fim\n");

@@ -60,7 +60,7 @@ Cliente* busca_cliente(void) {
     scanf(" %10[^\n]", cpf);
 
     while (fread(cln, sizeof(Cliente), 1, fp)) {
-        if (strcmp(cln->cpf, cpf) == 0 && cln->status != 'x') {
+        if (strcmp(cln->cpf, cpf) == 0 && cln->status != 'd') {
             fclose(fp);
             return cln;
         }
@@ -71,20 +71,16 @@ Cliente* busca_cliente(void) {
     return NULL;
 }
 
-void exibe_cliente(Cliente* cl) {
-    if (cl == NULL || cl->status == 'd') {
-        printf("Cliente não encontrado ou excluído.\n");
-    } else {
-        system("clear||cls");
-        printf("\n");
-        printf("\n==============   Exibir cliente   ==============\n");
-        printf("\n");
+void exibe_cliente(Cliente* cln) {
+    if (cln == NULL) {
+		printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
+	} else {
         printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
-        printf("    Nome: %s\n", cl->nome);
-        printf("    CPF: %s\n", cl->cpf);
-        printf("    E-mail: %s\n", cl->email);
-        printf("    Celular: %s\n", cl->celular);
-        printf("    Situação: %s\n", (cl->status == 'c') ? "Cadastrado" : "Desconhecida");
+        printf("    Nome: %s\n", cln->nome);
+        printf("    CPF: %s\n", cln->cpf);
+        printf("    E-mail: %s\n", cln->email);
+        printf("    Celular: %s\n", cln->celular);
+        printf("    Situação: %s\n", (cln->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
 }
 
@@ -146,4 +142,41 @@ void regrava_cliente(Cliente* cln) {
 	fclose(fp);
 	free(clnLido);
 }
+}
+
+void atualiza_cliente(void) {
+	Cliente* cln;
+	char* cpf;
+
+    cpf = tela_atualiza_cliente();
+	cln = busca_cliente(cpf);
+	if (cln == NULL) {
+    	printf("\n\nCliente não encontrado!\n\n");
+  	} else {
+		  cln = cadastrar_cliente();
+		  strcpy(cln->cpf, cpf);
+		  regrava_cliente(cln);
+		  free(cln);
+	}
+	free(cpf);
+}
+
+char* tela_atualiza_cliente(void) {
+	char* cpf;
+
+	cpf = (char*) malloc(12*sizeof(char));
+	
+	printf("___________________________________________________________________________\n");
+	printf("||                                                                       ||\n");
+	printf("||           = = = = = = = = Atualizar Cliente = = = = = = = =           ||\n");
+	printf("||                                                                       ||\n");
+	printf("||           Informe a CPF do Cliente: ");
+	scanf("%10[^\n]", cpf);
+	getchar();
+	printf("||                                                                       ||\n");
+	printf("||                                                                       ||\n");
+	printf("||_______________________________________________________________________||\n");
+	printf("\n");
+	delay(1);
+  	return cpf;
 }

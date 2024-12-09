@@ -13,9 +13,9 @@ char menu_principal(void) {
     printf("||    1 - Modulo de produtos                                      ||\n");    
     printf("||    2 - Modulo de clientes                                      ||\n");    
     printf("||    3 - Modulo de vendas                                        ||\n");    
-    printf("||    5 - Modulo de relatorios                                    ||\n");      
-    printf("||    6 - Modulo de informações                                   ||\n");    
-    printf("||    7 - Modulo de informações da equipe                         ||\n");    
+    printf("||    4 - Modulo de relatorios                                    ||\n");      
+    printf("||    5 - Modulo de informações                                   ||\n");    
+    printf("||    6 - Modulo de informações da equipe                         ||\n");    
     printf("||    0 - sair                                                    ||\n");    
     printf("||                                                                ||\n");    
     printf("||    => Escolha a opção desejada: ");

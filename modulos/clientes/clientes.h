@@ -17,4 +17,6 @@ void alterar_cliente(void);
 void lista_cliente(void);
 void exclui_cliente(Cliente* clnLido);
 void regrava_cliente(Cliente* cln);
+void atualizar_cliente(void);
+char* tela_atualiza_cliente(void);
 
