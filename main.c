@@ -12,11 +12,9 @@
 
 
 int main(void){
-    char op;
-
+    char  op;
     do{
         op = menu_principal();
-        int op;
         Cliente* cl;
         if(op == '1'){
             char op_produto = tela_modulo_produtos();
@@ -40,9 +38,9 @@ int main(void){
                 exibe_cliente(cl);
                 free(cl);
             }else if(op_clientes == '3'){
-                tela_alterar_cliente();    
+                printf("Função em manutenção");    
             }else if(op_clientes == '4'){
-                tela_excluir_cliente();
+                printf("Função em manutenção");    
             }
         }else if(op == '3'){
             char op_vendas = tela_modulo_vendas();

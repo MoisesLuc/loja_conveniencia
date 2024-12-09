@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "gerais.h"
 
-char menu_principal(void){
+char menu_principal(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -28,7 +29,7 @@ char menu_principal(void){
     return op;
 }
 
-void informacoes_gerais(void){
+void informacoes_gerais(void) {
     system("clear||cls");
     printf("\n");
     printf("____________________________________________________________________\n");    
@@ -55,7 +56,7 @@ void informacoes_gerais(void){
     getchar();
 }
 
-void informacoes_da_equipe(void){
+void informacoes_da_equipe(void) {
     system("clear||cls");
     printf("\n");
     printf("____________________________________________________________________\n");
