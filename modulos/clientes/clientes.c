@@ -5,6 +5,8 @@
 
 int modulo_clientes(void) {
     int op;
+    system("clear||cls");
+    printf("\n");
     printf("\n============ Módulo Clientes =============\n");
     printf("    1 - Cadastrar cliente\n");
     printf("    2 - Pesquisar cliente\n");
@@ -19,6 +21,8 @@ int modulo_clientes(void) {
 
 Cliente* cadastrar_cliente(void) {
     Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
+    system("clear||cls");
+    printf("\n");
     printf("\n=============== Cadastrar Clientes ==============\n");
     printf("\n");
     printf("    Informe o nome do cliente: ");
@@ -72,6 +76,8 @@ void exibe_cliente(Cliente* cl) {
     if (cl == NULL || cl->status == 'x') {
         printf("Cliente não encontrado ou excluído.\n");
     } else {
+        system("clear||cls");
+        printf("\n");
         printf("\n==============   Exibir cliente   ==============\n");
         printf("\n");
         printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
