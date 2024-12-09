@@ -10,8 +10,7 @@ SOURCES = main.c \
           modulos/clientes/clientes.c \
           modulos/vendas/vendas.c \
           modulos/entregas/entregas.c \
-          modulos/validacoes/endereco/validaEndereco.c \
-          modulos/validacoes/clientes/validaClientes.c
+   
 
 OBJECTS = $(SOURCES:.c=.o)
 
