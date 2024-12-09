@@ -87,3 +87,37 @@ void exibe_cliente(Cliente* cl) {
         printf("    Situação: %s\n", (cl->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
 }
+
+void exclui_Clino(Cliente* clnLido) {
+    FILE* fp;
+    Cliente* clnArq;
+    int cpf;
+    int achou = 0;
+    if (clnLido == NULL) {
+        printf("O Cliente informado não existe!\n");
+ }
+    else {
+        clnArq = (Cliente*) malloc(sizeof(Cliente));
+        fp = fopen("cliente.dat", "r+b");
+        if (fp == NULL) {
+            printf("Ops! Erro abertura do arquivo!\n");
+            printf("Não é possível continuar...\n");
+            exit(1);
+ }
+
+        while(!feof(fp)) {
+            fread(clnArq, sizeof(Cliente), 1, fp);
+            if ((clnArq->cpf == clnLido->cpf) && (clnArq->status != 'x')) {
+                achou = 1;
+                clnArq->status = 'x';
+                fseek(fp, -1*sizeof(Cliente), SEEK_CUR);
+                fwrite(clnArq, sizeof(Cliente), 1, fp);
+                printf("\nCliente excluído!\n");
+ }
+ }
+        if (!achou) {
+            printf("\nCliente não encontrado!\n");
+ }
+    fclose(fp);
+ }
+}
