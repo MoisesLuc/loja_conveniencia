@@ -1,60 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct cliente Cliente;
-struct cliente {
-    char nome[55];
-    char cpf[12];
-    char email[55];
-    char celular[11];
-    char status;
-};
-
-int modulo_clientes(void);
-Cliente* cadastrar_cliente(void);
-void grava_cliente(Cliente*);
-void exibe_cliente(Cliente*);
-Cliente* busca_cliente(void);
-void alterar_cliente(void);
-void lista_cliente(void);
-void excluir_cliente(Cliente*);
-
-int main(void) {
-    Cliente* x;
-    int opcao;
-    do {
-        opcao = modulo_clientes();
-        switch (opcao) {
-            case 1:
-                x = cadastrar_cliente();
-                grava_cliente(x);
-                free(x);
-                break;
-            case 2:
-                x = busca_cliente();
-                if (x != NULL) {
-                    exibe_cliente(x);
-                    free(x);
-                } else {
-                    printf("Cliente não encontrado!\n");
-                }
-                break;
-            case 3:
-                printf("Função de alteração ainda não implementada.\n");
-                break;
-            case 4:
-                printf("Função de exclusão ainda não implementada.\n");
-                break;
-            case 0:
-                printf("Saindo do programa...\n");
-                break;
-            default:
-                printf("Opção inválida! Tente novamente.\n");
-        }
-    } while (opcao != 0);
-    return 0;
-}
+#include "clientes.h"
 
 int modulo_clientes(void) {
     int op;
@@ -85,22 +32,6 @@ Cliente* cadastrar_cliente(void) {
     cln->status = 'c';
     return cln;
 }
-
-void exibe_cliente(Cliente* cl) {
-    if (cl == NULL || cl->status == 'x') {
-        printf("Cliente não encontrado ou excluído.\n");
-    } else {
-        printf("\n==============   Exibir cliente   ==============\n");
-        printf("\n");
-        printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
-        printf("    Nome: %s\n", cl->nome);
-        printf("    CPF: %s\n", cl->cpf);
-        printf("    E-mail: %s\n", cl->email);
-        printf("    Celular: %s\n", cl->celular);
-        printf("    Situação: %s\n", (cl->status == 'c') ? "Cadastrado" : "Desconhecida");
-    }
-}
-
 void grava_cliente(Cliente* cln) {
     FILE* fp = fopen("clientes.dat", "ab");
     if (fp == NULL) {
@@ -135,4 +66,19 @@ Cliente* busca_cliente(void) {
     fclose(fp);
     free(cln);
     return NULL;
+}
+
+void exibe_cliente(Cliente* cl) {
+    if (cl == NULL || cl->status == 'x') {
+        printf("Cliente não encontrado ou excluído.\n");
+    } else {
+        printf("\n==============   Exibir cliente   ==============\n");
+        printf("\n");
+        printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
+        printf("    Nome: %s\n", cl->nome);
+        printf("    CPF: %s\n", cl->cpf);
+        printf("    E-mail: %s\n", cl->email);
+        printf("    Celular: %s\n", cl->celular);
+        printf("    Situação: %s\n", (cl->status == 'c') ? "Cadastrado" : "Desconhecida");
+    }
 }

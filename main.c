@@ -16,7 +16,8 @@ int main(void){
 
     do{
         op = menu_principal();
-
+        int op;
+        Cliente* cl;
         if(op == '1'){
             char op_produto = tela_modulo_produtos();
             if(op_produto == '1'){
@@ -29,11 +30,15 @@ int main(void){
                 tela_excluir_produto();
             }
         }else if(op == '2'){
-            char op_clientes = tela_modulo_clientes();
+            char op_clientes = modulo_clientes();
             if(op_clientes == '1'){
-                tela_cadastrar_cliente();
+                cl = cadastrar_cliente();
+                grava_cliente(cl);
+                free(cl);
             }else if(op_clientes == '2'){
-                tela_verificar_cliente();
+                cl = busca_cliente();
+                exibe_cliente(cl);
+                free(cl);
             }else if(op_clientes == '3'){
                 tela_alterar_cliente();    
             }else if(op_clientes == '4'){
