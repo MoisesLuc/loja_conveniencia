@@ -11,6 +11,7 @@ int main(void){
     char  op;
     Produto* pd;
     Cliente* cl;
+    Venda* vd;
     do{
         op = menu_principal();
         if(op == '1'){
@@ -51,15 +52,22 @@ int main(void){
                 free(cl);
             }
         }else if(op == '3'){
-            char op_vendas = tela_modulo_vendas();
+            char op_vendas = modulo_vendas();
             if(op_vendas == '1'){
-                tela_cadastrar_venda();
+                vd = cadastrar_venda();
+                grava_venda(vd);
+                free(vd);
             }else if(op_vendas == '2'){
-                tela_alterar_venda();
+                vd = busca_venda();
+                exibe_venda(vd);
+                free(vd);
             }else if(op_vendas == '3'){
-                tela_excluir_venda();
+                atualiza_venda(); 
+                free(vd);  
             }else if(op_vendas == '4'){
-                tela_exibir_venda();
+                vd = busca_venda();
+                exclui_venda(vd);
+                free(vd);
             }
         }else if(op == '4'){
             informacoes_gerais();

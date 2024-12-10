@@ -1,10 +1,20 @@
-#ifndef VENDAS_H
-#define VENDAS_H
+typedef struct venda Venda;
 
-char tela_modulo_vendas(void);
-void tela_cadastrar_venda(void);
-void tela_alterar_venda(void);
-void tela_excluir_venda(void);
-void tela_exibir_venda(void);
+struct venda {
+    char cupom[5];
+    char pv[100];
+    char valor[5];
+    char pagamento[20];
+    char status;
+};
 
-#endif
+char modulo_vendas(void);
+Venda* cadastrar_venda(void);
+void grava_venda(Venda*);
+void exibe_venda(Venda*);
+Venda* busca_venda(void);
+void alterar_venda(void);
+void lista_venda(void);
+void exclui_venda(Venda* vndLido);
+void regrava_venda(Venda* vnd);
+void atualiza_venda(void);
