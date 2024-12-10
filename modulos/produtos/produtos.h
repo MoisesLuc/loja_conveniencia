@@ -1,10 +1,22 @@
-#ifndef PRODUTOS_H
-#define PRODUTOS_H
+typedef struct produto Produto;
 
-char tela_modulo_produtos(void);
-void tela_cadastrar_produto(void);
-void tela_verificar_produto(void);
-void tela_alterar_produto(void);
-void tela_excluir_produto(void);
+struct produto {
+    char nomep[55];
+    char codigop[4];
+    char marca[20];
+    float preco;
+    char status;
+};
 
-#endif
+char modulo_produtos(void);
+Produto* cadastrar_produto(void);
+void grava_produto(Produto*);
+void exibe_produto(Produto*);
+Produto* busca_produto(void);
+void alterar_produto(void);
+void lista_produto(void);
+void exclui_produto(Produto* pdtLido);
+void regrava_produto(Produto* pdt);
+void atualiza_produto(void);
+
+

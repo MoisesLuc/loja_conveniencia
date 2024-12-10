@@ -9,19 +9,27 @@
 
 int main(void){
     char  op;
+    Produto* pd;
     Cliente* cl;
     do{
         op = menu_principal();
         if(op == '1'){
-            char op_produto = tela_modulo_produtos();
-            if(op_produto == '1'){
-                tela_cadastrar_produto();
-            }else if(op_produto == '2'){
-                tela_verificar_produto();
-            }else if(op_produto == '3'){
-                tela_alterar_produto();
-            }else if(op_produto == '4'){
-                tela_excluir_produto();
+            char op_produtos = modulo_produtos();
+            if(op_produtos == '1'){
+                pd = cadastrar_produto();
+                grava_produto(pd);
+                free(pd);
+            }else if(op_produtos == '2'){
+                pd = busca_produto();
+                exibe_produto(pd);
+                free(pd);
+            }else if(op_produtos == '3'){
+                atualiza_produto(); 
+                free(pd);  
+            }else if(op_produtos == '4'){
+                pd = busca_produto();
+                exclui_produto(pd);
+                free(pd);
             }
         }else if(op == '2'){
             
@@ -35,7 +43,7 @@ int main(void){
                 exibe_cliente(cl);
                 free(cl);
             }else if(op_clientes == '3'){
-                atualizar_cliente(); 
+                atualiza_cliente(); 
                 free(cl);  
             }else if(op_clientes == '4'){
                 cl = busca_cliente();

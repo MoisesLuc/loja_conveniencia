@@ -3,125 +3,160 @@
 #include <string.h>
 #include "produtos.h"
 
-char tela_modulo_produtos(void) {
+char modulo_produtos(void) {
     char op;
     system("clear||cls");
     printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Módulo Produtos         = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      1 - Cadastrar Produto                                     ||\n");
-    printf("||      2 - Verificar Produto                                     ||\n");
-    printf("||      3 - Alterar Produto                                       ||\n");
-    printf("||      4 - Excluir Produto                                       ||\n");
-    printf("||      0 - Sair                                                  ||\n");
-    printf("||                                                                ||\n");    
-    printf("||    => Escolha a opção desejada: ");
-    scanf(" %c", &op); 
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
+    printf("\n============ Módulo Produtos =============\n");
+    printf("    1 - Cadastrar produto\n");
+    printf("    2 - Pesquisar produto\n");
+    printf("    3 - Alterar produto\n");
+    printf("    4 - Excluir produto\n");
+    printf("    0 - Sair\n");
+    printf("    Escolha uma opção: ");
+    scanf("%c", &op);
     getchar();
     return op;
 }
 
-void tela_cadastrar_produto(void) {
-    char nome[20], codigo[10], marca[15], preco[8];
-    system("clear||cls");
+Produto* cadastrar_produto(void) {
+    Produto* pdt = (Produto*) malloc(sizeof(Produto));
     printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        Cadastrar Produto       = = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => Nome do produto: ");
-    fgets(nome, 20, stdin);
-    strtok(nome, "\n"); 
-    printf("||      => Código do produto: ");
-    fgets(codigo, 10, stdin);
-    strtok(codigo, "\n");
-    printf("||      => Marca do produto: ");
-    fgets(marca, 15, stdin);
-    strtok(marca, "\n");
-    printf("||      => Preço do produto: ");
-    fgets(preco, 8, stdin);
-    strtok(preco, "\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
+    printf("\n=============== Cadastrar Produto ==============\n");
     printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
+    printf("    Informe o nome do produto: ");
+    scanf(" %54[^\n]", pdt->nomep);
+    printf("    Informe o código do produto: ");
+    scanf(" %3[^\n]", pdt->codigop);
+    printf("    Informe a marca do produto: ");
+    scanf(" %19[^\n]", pdt->marca);
+    printf("    Informe o preço do produto: ");
+    scanf("%f", &pdt->preco);
+    pdt->status = 'c';
+    return pdt;
+}
+void grava_produto(Produto* pdt) {
+    FILE* fp = fopen("produtos.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para gravação.\n");
+        exit(1);
+    }
+    fwrite(pdt, sizeof(Produto), 1, fp);
+    fclose(fp);
 }
 
-void tela_verificar_produto(void) {
-    char codigo[10];
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =        Verificar Produto       = = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => Código do produto: ");
-    fgets(codigo, 10, stdin);
-    strtok(codigo, "\n");
-    printf("||\n");
-    printf("||      => Nome do produto: XXXXXXXX\n");
-    printf("||      => Código do produto: XXXXXXXX\n");
-    printf("||      => Marca do produto: XXXXXXXX\n");
-    printf("||      => Preço do produto: XXXXXXXX\n");
-    printf("||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
+Produto* busca_produto(void) {
+    FILE* fp = fopen("produtos.dat", "rb");
+    Produto* pdt = (Produto*) malloc(sizeof(Produto));
+    char codigop[4];
+
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(pdt);
+        return NULL;
+    }
+
+    printf("\nInforme o código do produto: ");
+    scanf(" %3[^\n]", codigop);
+
+    while (fread(pdt, sizeof(Produto), 1, fp)) {
+        if (strcmp(pdt->codigop, codigop) == 0 && pdt->status != 'd') {
+            fclose(fp);
+            return pdt;
+        }
+    }
+
+    fclose(fp);
+    free(pdt);
+    return NULL;
 }
 
-void tela_alterar_produto(void) {
-    char nome[20], codigo[10], marca[15], preco[8];
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Alterar Produto       = = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => Código do produto: ");
-    fgets(codigo, 10, stdin);
-    strtok(codigo, "\n");
-    printf("\n");
-    printf("|| ______________________________________________________________ \n");
-    printf("||\n");
-    printf("||      => Nome do produto: ");
-    fgets(nome, 20, stdin);
-    strtok(nome, "\n");
-    printf("||      => Marca do produto: ");
-    fgets(marca, 15, stdin);
-    strtok(marca, "\n");
-    printf("||      => Preço do produto: ");
-    fgets(preco, 8, stdin);
-    strtok(preco, "\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = = = = = = = = = = = = = = = =  = = = = = = = ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
+void exibe_produto(Produto* pdt) {
+    if (pdt == NULL) {
+		printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
+	} else {
+        printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
+        printf("    Nome: %s\n", pdt->nomep);
+        printf("    Código: %s\n", pdt->codigop);
+        printf("    Marca: %s\n", pdt->marca);
+        printf("    Preço: %f\n", pdt->preco);
+        printf("    Situação: %s\n", (pdt->status == 'c') ? "Cadastrado" : "Desconhecida");
+    }
 }
 
-void tela_excluir_produto(void) {
-    char codigo[10];
-    system("clear||cls");
-    printf("\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("||                                                                ||\n");
-    printf("|| = = = = = = = =          Excluir Produto       = = = = = = = = ||\n");
-    printf("||                                                                ||\n");
-    printf("||      => Código do produto: ");
-    fgets(codigo, 10, stdin);
-    strtok(codigo, "\n");
-    printf("||                                                                ||\n");
-    printf("||      => Produto excluído!                                      ||\n");
-    printf("|| ______________________________________________________________ ||\n");
-    printf("\n");
-    printf("| Tecle <ENTER> para continuar...\n");
-    getchar();
+void exclui_produto(Produto* pdtLido) {
+    FILE* fp;
+    Produto* pdtArq;
+
+    int achou = 0;
+    if (pdtLido == NULL) {
+        printf("O produto informado não existe!\n");
+ }
+    else {
+        pdtArq = (Produto*) malloc(sizeof(Produto));
+        fp = fopen("produto.dat", "r+b");
+        if (fp == NULL) {
+            printf("Ops! Erro abertura do arquivo!\n");
+            printf("Não é possível continuar...\n");
+            exit(1);
+ }
+
+        while(!feof(fp)) {
+            fread(pdtArq, sizeof(Produto), 1, fp);
+            if ((strcmp(pdtArq->codigop, pdtLido->codigop) == 0) && (pdtArq->status != 'd')) {
+                achou = 1;
+                pdtArq->status = 'd';
+                fseek(fp, -1*sizeof(Produto), SEEK_CUR);
+                fwrite(pdtArq, sizeof(Produto), 1, fp);
+                printf("\nProduto excluído!\n");
+ }
+ }
+        if (!achou) {
+            printf("\nProduto não encontrado!\n");
+ }
+    fclose(fp);
+ }
 }
+
+void regrava_produto(Produto* pdt) {
+	int achou;
+	FILE* fp;
+	Produto* pdtLido;
+
+	pdtLido = (Produto*) malloc(sizeof(Produto));
+	fp = fopen("produto.dat", "r+b");
+	if (fp == NULL) {
+		printf("\nProduto não encontrado!\n");
+	}
+	while(!feof(fp)) {
+	achou = 0;
+	while(fread(pdtLido, sizeof(Produto), 1, fp) && !achou) {
+		fread(pdtLido, sizeof(Produto), 1, fp);
+		if (strcmp(pdtLido->codigop, pdt->codigop) == 0) {
+			achou = 1;
+			fseek(fp, -1*sizeof(Produto), SEEK_CUR);
+        	fwrite(pdt, sizeof(Produto), 1, fp);
+			break;
+		}
+	}
+	fclose(fp);
+	free(pdtLido);
+}
+}
+
+void atualiza_produto(void) {
+	Produto* pdt;
+	char* cod[20];
+
+	pdt = busca_produto();
+	if (pdt == NULL) {
+    	printf("\n\nCliente não encontrado!\n\n");
+  	} else {
+		  pdt = cadastrar_produto();
+		  strcpy(pdt->codigop, cod);
+		  regrava_produto(pdt);
+		  free(pdt);
+	}
+	free(cod);
+}
+
