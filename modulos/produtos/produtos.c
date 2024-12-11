@@ -146,7 +146,7 @@ void regrava_produto(Produto* pdt) {
 
 void atualiza_produto(void) {
 	Produto* pdt;
-	char* cod[20];
+	char* cod[5];
 
 	pdt = busca_produto();
 	if (pdt == NULL) {

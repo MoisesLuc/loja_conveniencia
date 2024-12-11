@@ -52,7 +52,7 @@ void grava_cliente(Cliente* cln) {
 Cliente* busca_cliente(void) {
     FILE* fp = fopen("clientes.dat", "rb");
     Cliente* cln = (Cliente*) malloc(sizeof(Cliente));
-    char cpf[11];
+    char cpf[12];
 
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
@@ -61,7 +61,8 @@ Cliente* busca_cliente(void) {
     }
 
     printf("\nInforme o CPF do cliente: ");
-    scanf(" %10[^\n]", cpf);
+    scanf(" %12[^\n]", cpf);
+    getchar();
 
     while (fread(cln, sizeof(Cliente), 1, fp)) {
         if (strcmp(cln->cpf, cpf) == 0 && cln->status != 'd') {
@@ -86,6 +87,7 @@ void exibe_cliente(Cliente* cln) {
         printf("    Celular: %s\n", cln->celular);
         printf("    Situação: %s\n", (cln->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
+    printf("\n");
     printf("Tecle enter para continuar...\n");
     getchar();
 }
@@ -158,9 +160,6 @@ void atualiza_cliente(void) {
     if (cln == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
     } else {
-        printf("Informe o novo CPF (11 dígitos): ");
-        cln = busca_cliente();
-
         cln = cadastrar_cliente();
         strcpy(cln->cpf, cpf);  
         regrava_cliente(cln);   
