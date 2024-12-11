@@ -2,9 +2,9 @@ typedef struct cliente Cliente;
 
 struct cliente {
     char nome[55];
-    char cpf[11];
+    char cpf[12];
     char email[55];
-    char celular[11];
+    char celular[12];
     char status;
 };
 

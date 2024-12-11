@@ -25,14 +25,18 @@ Cliente* cadastrar_cliente(void) {
     printf("\n=============== Cadastrar Clientes ==============\n");
     printf("\n");
     printf("    Informe o nome do cliente: ");
-    scanf(" %54[^\n]", cln->nome);
+    scanf(" %55[^\n]", cln->nome);
     printf("    Informe o CPF do cliente: ");
-    scanf(" %10[^\n]", cln->cpf);
+    scanf(" %12[^\n]", cln->cpf);
     printf("    Informe o e-mail do cliente: ");
-    scanf(" %54[^\n]", cln->email);
+    scanf(" %55[^\n]", cln->email);
     printf("    Informe o celular do cliente: ");
-    scanf(" %10[^\n]", cln->celular);
+    scanf(" %12[^\n]", cln->celular);
     cln->status = 'c';
+    printf("Cliente cadastrado com sucesso!\n"); 
+    printf("\n");
+    printf("Tecle enter para continuar...\n");
+    getchar();
     return cln;
 }
 void grava_cliente(Cliente* cln) {
@@ -82,6 +86,8 @@ void exibe_cliente(Cliente* cln) {
         printf("    Celular: %s\n", cln->celular);
         printf("    Situação: %s\n", (cln->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
+    printf("Tecle enter para continuar...\n");
+    getchar();
 }
 
 void exclui_cliente(Cliente* clnLido) {
@@ -145,18 +151,19 @@ void regrava_cliente(Cliente* cln) {
 }
 
 void atualiza_cliente(void) {
-	Cliente* cln;
-	char* cpf;
+    Cliente* cln;
+    char cpf[12];  
 
-	cln = busca_cliente();
-	if (cln == NULL) {
-    	printf("\n\nCliente não encontrado!\n\n");
-  	} else {
-		  cln = cadastrar_cliente();
-		  strcpy(cln->cpf, cpf);
-		  regrava_cliente(cln);
-		  free(cln);
-	}
-	free(cpf);
+    cln = busca_cliente();
+    if (cln == NULL) {
+        printf("\n\nCliente não encontrado!\n\n");
+    } else {
+        printf("Informe o novo CPF (11 dígitos): ");
+        cln = busca_cliente();
+
+        cln = cadastrar_cliente();
+        strcpy(cln->cpf, cpf);  
+        regrava_cliente(cln);   
+        free(cln);              
+    }
 }
-
