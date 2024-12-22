@@ -48,7 +48,7 @@ void grava_produto(Produto* pdt) {
 Produto* busca_produto(void) {
     FILE* fp = fopen("produtos.dat", "rb");
     Produto* pdt = (Produto*) malloc(sizeof(Produto));
-    char codigop[4];
+    char codigop[5];
 
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
@@ -57,7 +57,7 @@ Produto* busca_produto(void) {
     }
 
     printf("\nInforme o código do produto: ");
-    scanf(" %3[^\n]", codigop);
+    scanf(" %5[^\n]", codigop);
 
     while (fread(pdt, sizeof(Produto), 1, fp)) {
         if (strcmp(pdt->codigop, codigop) == 0 && pdt->status != 'd') {
@@ -82,6 +82,9 @@ void exibe_produto(Produto* pdt) {
         printf("    Preço: %f\n", pdt->preco);
         printf("    Situação: %s\n", (pdt->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
+    printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void exclui_produto(Produto* pdtLido) {
@@ -145,18 +148,23 @@ void regrava_produto(Produto* pdt) {
 }
 
 void atualiza_produto(void) {
-	Produto* pdt;
-	char* cod[5];
+    Produto* pdt;
 
-	pdt = busca_produto();
-	if (pdt == NULL) {
-    	printf("\n\nCliente não encontrado!\n\n");
-  	} else {
-		  pdt = cadastrar_produto();
-		  strcpy(pdt->codigop, cod);
-		  regrava_produto(pdt);
-		  free(pdt);
-	}
-	free(cod);
+    // Busca o produto no sistema
+    pdt = busca_produto();  // Sem passar argumentos
+    if (pdt == NULL) {
+        printf("\n\nProduto não encontrado!\n\n");
+    } else {
+        Produto* novo_pdt = cadastrar_produto();
+
+        // Atualiza o código do produto
+        strcpy(novo_pdt->codigop, "12345");
+
+        // Regrava o produto no sistema
+        regrava_produto(novo_pdt);
+
+        // Libera memória alocada
+        free(novo_pdt);
+    }
 }
 
