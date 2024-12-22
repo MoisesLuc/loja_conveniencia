@@ -27,12 +27,17 @@ Produto* cadastrar_produto(void) {
     printf("    Informe o nome do produto: ");
     scanf(" %54[^\n]", pdt->nomep);
     printf("    Informe o código do produto: ");
-    scanf(" %3[^\n]", pdt->codigop);
+    scanf(" %5[^\n]", pdt->codigop);
     printf("    Informe a marca do produto: ");
     scanf(" %19[^\n]", pdt->marca);
     printf("    Informe o preço do produto: ");
     scanf("%f", &pdt->preco);
     pdt->status = 'c';
+    printf("\n");
+    printf("Produto cadastrado com sucesso!\n");
+    printf("\n");
+    printf("Tecle enter para continuar...\n");
+    getchar();
     return pdt;
 }
 void grava_produto(Produto* pdt) {
@@ -150,20 +155,13 @@ void regrava_produto(Produto* pdt) {
 void atualiza_produto(void) {
     Produto* pdt;
 
-    // Busca o produto no sistema
-    pdt = busca_produto();  // Sem passar argumentos
+    pdt = busca_produto(); 
     if (pdt == NULL) {
         printf("\n\nProduto não encontrado!\n\n");
     } else {
         Produto* novo_pdt = cadastrar_produto();
-
-        // Atualiza o código do produto
         strcpy(novo_pdt->codigop, "12345");
-
-        // Regrava o produto no sistema
         regrava_produto(novo_pdt);
-
-        // Libera memória alocada
         free(novo_pdt);
     }
 }
