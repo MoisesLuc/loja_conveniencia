@@ -5,8 +5,6 @@
 char menu_principal(void)
 {
     char op;
-    char c;
-
     system("clear||cls");
     printf("\n");
     printf("____________________________________________________________________\n");
@@ -16,7 +14,7 @@ char menu_principal(void)
     printf("||    1 - Modulo de produtos                                      ||\n");
     printf("||    2 - Modulo de clientes                                      ||\n");
     printf("||    3 - Modulo de vendas                                        ||\n");
-    // printf("||    4 - Modulo de relatorios                                    ||\n");
+    printf("||    4 - Modulo de relatorios                                    ||\n");
     printf("||    5 - Modulo de informações                                   ||\n");
     printf("||    6 - Modulo de informações da equipe                         ||\n");
     printf("||    0 - sair                                                    ||\n");

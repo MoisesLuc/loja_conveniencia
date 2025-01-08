@@ -6,7 +6,6 @@
 char modulo_clientes(void)
 {
     char op;
-    char c;
     system("clear||cls");
     printf("\n");
     printf("\n============ Módulo Clientes =============\n");

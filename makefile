@@ -1,27 +1,38 @@
-TARGET = program
-
-CC = gcc
-CFLAGS = -Wall -Wextra -I./modulos/gerais -I./modulos/produtos -I./modulos/clientes -I./modulos/vendas -I./modulos/validacoes/endereco -I./modulos/validacoes/clientes
-
-SRCDIR = .
-SOURCES = main.c \
-          modulos/gerais/gerais.c \
-          modulos/produtos/produtos.c \
-          modulos/clientes/clientes.c \
-          modulos/vendas/vendas.c \
-   
-
-OBJECTS = $(SOURCES:.c=.o)
-
-all: $(TARGET)
-
-$(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(TARGET)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
+# Name do projeto
+PROJ_NAME=programa
+ 
+# Arquivos .c
+C_SOURCE=$(wildcard *.c modulos/clientes/*.c modulos/gerais/*.c modulos/produtos/*.c modulos/vendas/*.c)
+ 
+# Arquivos .h
+H_SOURCE=$(wildcard *.h modulos/clientes/*.h modulos/gerais/*.h modulos/produtos/*.h modulos/vendas/*.h)
+ 
+# Arquivos .o
+OBJ=$(C_SOURCE:.c=.o)
+ 
+# Compilador
+CC=gcc
+ 
+# Falgs do compilador
+CC_FLAGS=-c         \
+         -Wall
+ 
+#
+# Compilação
+#
+all: $(PROJ_NAME)
+ 
+$(PROJ_NAME): $(OBJ)
+	$(CC) -o $@ $^
+	@ echo ' '
+	@ echo 'Criado o execútavel "$(PROJ_NAME)"'
+	@ echo ' '
+ 
+%.o: %.c %.h
+	$(CC) -o $@ $< $(CC_FLAGS)
+ 
+main.o: main.c $(H_SOURCE)
+	$(CC) -o $@ $< $(CC_FLAGS)
+ 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
-
-.PHONY: all clean
+	rm -rf *.o $(PROJ_NAME) *~
