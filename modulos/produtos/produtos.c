@@ -3,7 +3,8 @@
 #include <string.h>
 #include "produtos.h"
 
-char modulo_produtos(void) {
+char modulo_produtos(void)
+{
     char op;
     system("clear||cls");
     printf("\n");
@@ -14,13 +15,14 @@ char modulo_produtos(void) {
     printf("    4 - Excluir produto\n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");
-    scanf("%c", &op);
+    scanf(" %c", &op);
     getchar();
     return op;
 }
 
-Produto* cadastrar_produto(void) {
-    Produto* pdt = (Produto*) malloc(sizeof(Produto));
+Produto *cadastrar_produto(void)
+{
+    Produto *pdt = (Produto *)malloc(sizeof(Produto));
     printf("\n");
     printf("\n=============== Cadastrar Produto ==============\n");
     printf("\n");
@@ -40,9 +42,11 @@ Produto* cadastrar_produto(void) {
     getchar();
     return pdt;
 }
-void grava_produto(Produto* pdt) {
-    FILE* fp = fopen("produtos.dat", "ab");
-    if (fp == NULL) {
+void grava_produto(Produto *pdt)
+{
+    FILE *fp = fopen("produtos.dat", "ab");
+    if (fp == NULL)
+    {
         printf("Erro ao abrir o arquivo para gravação.\n");
         exit(1);
     }
@@ -50,12 +54,14 @@ void grava_produto(Produto* pdt) {
     fclose(fp);
 }
 
-Produto* busca_produto(void) {
-    FILE* fp = fopen("produtos.dat", "rb");
-    Produto* pdt = (Produto*) malloc(sizeof(Produto));
+Produto *busca_produto(void)
+{
+    FILE *fp = fopen("produtos.dat", "rb");
+    Produto *pdt = (Produto *)malloc(sizeof(Produto));
     char codigop[5];
 
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         printf("Erro ao abrir o arquivo para leitura.\n");
         free(pdt);
         return NULL;
@@ -64,8 +70,10 @@ Produto* busca_produto(void) {
     printf("\nInforme o código do produto: ");
     scanf(" %5[^\n]", codigop);
 
-    while (fread(pdt, sizeof(Produto), 1, fp)) {
-        if (strcmp(pdt->codigop, codigop) == 0 && pdt->status != 'd') {
+    while (fread(pdt, sizeof(Produto), 1, fp))
+    {
+        if (strcmp(pdt->codigop, codigop) == 0 && pdt->status != 'd')
+        {
             fclose(fp);
             return pdt;
         }
@@ -76,10 +84,14 @@ Produto* busca_produto(void) {
     return NULL;
 }
 
-void exibe_produto(Produto* pdt) {
-    if (pdt == NULL) {
-		printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
-	} else {
+void exibe_produto(Produto *pdt)
+{
+    if (pdt == NULL)
+    {
+        printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
+    }
+    else
+    {
         printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
         printf("    Nome: %s\n", pdt->nomep);
         printf("    Código: %s\n", pdt->codigop);
@@ -92,77 +104,92 @@ void exibe_produto(Produto* pdt) {
     getchar();
 }
 
-void exclui_produto(Produto* pdtLido) {
-    FILE* fp;
-    Produto* pdtArq;
+void exclui_produto(Produto *pdtLido)
+{
+    FILE *fp;
+    Produto *pdtArq;
 
     int achou = 0;
-    if (pdtLido == NULL) {
+    if (pdtLido == NULL)
+    {
         printf("O produto informado não existe!\n");
- }
-    else {
-        pdtArq = (Produto*) malloc(sizeof(Produto));
+    }
+    else
+    {
+        pdtArq = (Produto *)malloc(sizeof(Produto));
         fp = fopen("produto.dat", "r+b");
-        if (fp == NULL) {
+        if (fp == NULL)
+        {
             printf("Ops! Erro abertura do arquivo!\n");
             printf("Não é possível continuar...\n");
             exit(1);
- }
+        }
 
-        while(!feof(fp)) {
+        while (!feof(fp))
+        {
             fread(pdtArq, sizeof(Produto), 1, fp);
-            if ((strcmp(pdtArq->codigop, pdtLido->codigop) == 0) && (pdtArq->status != 'd')) {
+            if ((strcmp(pdtArq->codigop, pdtLido->codigop) == 0) && (pdtArq->status != 'd'))
+            {
                 achou = 1;
                 pdtArq->status = 'd';
-                fseek(fp, -1*sizeof(Produto), SEEK_CUR);
+                fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
                 fwrite(pdtArq, sizeof(Produto), 1, fp);
                 printf("\nProduto excluído!\n");
- }
- }
-        if (!achou) {
+            }
+        }
+        if (!achou)
+        {
             printf("\nProduto não encontrado!\n");
- }
-    fclose(fp);
- }
+        }
+        fclose(fp);
+    }
 }
 
-void regrava_produto(Produto* pdt) {
-	int achou;
-	FILE* fp;
-	Produto* pdtLido;
+void regrava_produto(Produto *pdt)
+{
+    int achou;
+    FILE *fp;
+    Produto *pdtLido;
 
-	pdtLido = (Produto*) malloc(sizeof(Produto));
-	fp = fopen("produto.dat", "r+b");
-	if (fp == NULL) {
-		printf("\nProduto não encontrado!\n");
-	}
-	while(!feof(fp)) {
-	achou = 0;
-	while(fread(pdtLido, sizeof(Produto), 1, fp) && !achou) {
-		fread(pdtLido, sizeof(Produto), 1, fp);
-		if (strcmp(pdtLido->codigop, pdt->codigop) == 0) {
-			achou = 1;
-			fseek(fp, -1*sizeof(Produto), SEEK_CUR);
-        	fwrite(pdt, sizeof(Produto), 1, fp);
-			break;
-		}
-	}
-	fclose(fp);
-	free(pdtLido);
+    pdtLido = (Produto *)malloc(sizeof(Produto));
+    fp = fopen("produto.dat", "r+b");
+    if (fp == NULL)
+    {
+        printf("\nProduto não encontrado!\n");
+    }
+    while (!feof(fp))
+    {
+        achou = 0;
+        while (fread(pdtLido, sizeof(Produto), 1, fp) && !achou)
+        {
+            fread(pdtLido, sizeof(Produto), 1, fp);
+            if (strcmp(pdtLido->codigop, pdt->codigop) == 0)
+            {
+                achou = 1;
+                fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
+                fwrite(pdt, sizeof(Produto), 1, fp);
+                break;
+            }
+        }
+        fclose(fp);
+        free(pdtLido);
+    }
 }
-}
 
-void atualiza_produto(void) {
-    Produto* pdt;
+void atualiza_produto(void)
+{
+    Produto *pdt;
 
-    pdt = busca_produto(); 
-    if (pdt == NULL) {
+    pdt = busca_produto();
+    if (pdt == NULL)
+    {
         printf("\n\nProduto não encontrado!\n\n");
-    } else {
-        Produto* novo_pdt = cadastrar_produto();
+    }
+    else
+    {
+        Produto *novo_pdt = cadastrar_produto();
         strcpy(novo_pdt->codigop, "12345");
         regrava_produto(novo_pdt);
         free(novo_pdt);
     }
 }
-

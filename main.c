@@ -12,6 +12,7 @@ int main(void){
     Produto* pd;
     Cliente* cl;
     Venda* vd;
+
     do{
         op = menu_principal();
         if(op == '1'){
@@ -33,7 +34,6 @@ int main(void){
                 free(pd);
             }
         }else if(op == '2'){
-            
             char op_clientes = modulo_clientes();
             if(op_clientes == '1'){
                 cl = cadastrar_cliente();
@@ -69,12 +69,10 @@ int main(void){
                 exclui_venda(vd);
                 free(vd);
             }
-        }else if(op == '4'){
-            informacoes_gerais();
         }else if(op == '5'){
+            informacoes_gerais();
+        }else if(op == '6'){
             informacoes_da_equipe();
-        }else if(op == '0'){
-            printf("fim\n");
         }else{
             printf("Opção inválida!");
         }

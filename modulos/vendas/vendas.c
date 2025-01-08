@@ -3,7 +3,8 @@
 #include <string.h>
 #include "vendas.h"
 
-char modulo_vendas(void) {
+char modulo_vendas(void)
+{
     char op;
     system("clear||cls");
     printf("\n");
@@ -14,13 +15,14 @@ char modulo_vendas(void) {
     printf("    4 - Excluir venda\n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");
-    scanf("%c", &op);
+    scanf(" %c", &op);
     getchar();
     return op;
 }
 
-Venda* cadastrar_venda(void) {
-    Venda* vnd = (Venda*) malloc(sizeof(Venda));
+Venda *cadastrar_venda(void)
+{
+    Venda *vnd = (Venda *)malloc(sizeof(Venda));
     printf("\n");
     printf("\n=============== Cadastrar Venda ==============\n");
     printf("\n");
@@ -35,9 +37,11 @@ Venda* cadastrar_venda(void) {
     vnd->status = 'c';
     return vnd;
 }
-void grava_venda(Venda* vnd) {
-    FILE* fp = fopen("vendas.dat", "ab");
-    if (fp == NULL) {
+void grava_venda(Venda *vnd)
+{
+    FILE *fp = fopen("vendas.dat", "ab");
+    if (fp == NULL)
+    {
         printf("Erro ao abrir o arquivo para gravação.\n");
         exit(1);
     }
@@ -45,12 +49,14 @@ void grava_venda(Venda* vnd) {
     fclose(fp);
 }
 
-Venda* busca_venda(void) {
-    FILE* fp = fopen("vendas.dat", "rb");
-    Venda* vnd = (Venda*) malloc(sizeof(Venda));
+Venda *busca_venda(void)
+{
+    FILE *fp = fopen("vendas.dat", "rb");
+    Venda *vnd = (Venda *)malloc(sizeof(Venda));
     char cupom[5];
 
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         printf("Erro ao abrir o arquivo para leitura.\n");
         free(vnd);
         return NULL;
@@ -59,8 +65,10 @@ Venda* busca_venda(void) {
     printf("\nInforme o cumpom fiscal: ");
     scanf(" %4[^\n]", cupom);
 
-    while (fread(vnd, sizeof(Venda), 1, fp)) {
-        if (strcmp(vnd->cupom, cupom) == 0 && vnd->status != 'd') {
+    while (fread(vnd, sizeof(Venda), 1, fp))
+    {
+        if (strcmp(vnd->cupom, cupom) == 0 && vnd->status != 'd')
+        {
             fclose(fp);
             return vnd;
         }
@@ -71,10 +79,14 @@ Venda* busca_venda(void) {
     return NULL;
 }
 
-void exibe_venda(Venda* vnd) {
-    if (vnd == NULL) {
-		printf("\n= = = = = = = Venda Inexistente  = = = = = = =\n");
-	} else {
+void exibe_venda(Venda *vnd)
+{
+    if (vnd == NULL)
+    {
+        printf("\n= = = = = = = Venda Inexistente  = = = = = = =\n");
+    }
+    else
+    {
         printf("\n= = = = = = =  Venda Cadastrada  = = = = = = =\n");
         printf("    Cupom: %s\n", vnd->cupom);
         printf("    Produtos vendidos: %s\n", vnd->pv);
@@ -84,78 +96,94 @@ void exibe_venda(Venda* vnd) {
     }
 }
 
-void exclui_venda(Venda* vndLido) {
-    FILE* fp;
-    Venda* vndArq;
+void exclui_venda(Venda *vndLido)
+{
+    FILE *fp;
+    Venda *vndArq;
 
     int achou = 0;
-    if (vndLido == NULL) {
+    if (vndLido == NULL)
+    {
         printf("A venda informada não existe!\n");
- }
-    else {
-        vndArq = (Venda*) malloc(sizeof(Venda));
+    }
+    else
+    {
+        vndArq = (Venda *)malloc(sizeof(Venda));
         fp = fopen("vendas.dat", "r+b");
-        if (fp == NULL) {
+        if (fp == NULL)
+        {
             printf("Ops! Erro abertura do arquivo!\n");
             printf("Não é possível continuar...\n");
             exit(1);
- }
+        }
 
-        while(!feof(fp)) {
+        while (!feof(fp))
+        {
             fread(vndArq, sizeof(Venda), 1, fp);
-            if ((strcmp(vndArq->cupom, vndLido->cupom) == 0) && (vndArq->status != 'd')) {
+            if ((strcmp(vndArq->cupom, vndLido->cupom) == 0) && (vndArq->status != 'd'))
+            {
                 achou = 1;
                 vndArq->status = 'd';
-                fseek(fp, -1*sizeof(Venda), SEEK_CUR);
+                fseek(fp, -1 * sizeof(Venda), SEEK_CUR);
                 fwrite(vndArq, sizeof(Venda), 1, fp);
                 printf("\nVenda excluída!\n");
- }
- }
-        if (!achou) {
+            }
+        }
+        if (!achou)
+        {
             printf("\nVenda não encontrada!\n");
- }
-    fclose(fp);
- }
+        }
+        fclose(fp);
+    }
 }
 
-void regrava_venda(Venda* vnd) {
-	int achou;
-	FILE* fp;
-	Venda* vndLido;
+void regrava_venda(Venda *vnd)
+{
+    int achou;
+    FILE *fp;
+    Venda *vndLido;
 
-	vndLido = (Venda*) malloc(sizeof(Venda));
-	fp = fopen("venda.dat", "r+b");
-	if (fp == NULL) {
-		printf("\nVenda não encontrada!\n");
-	}
-	while(!feof(fp)) {
-	achou = 0;
-	while(fread(vndLido, sizeof(Venda), 1, fp) && !achou) {
-		fread(vndLido, sizeof(Venda), 1, fp);
-		if (strcmp(vndLido->cupom, vnd->cupom) == 0) {
-			achou = 1;
-			fseek(fp, -1*sizeof(Venda), SEEK_CUR);
-        	fwrite(vnd, sizeof(Venda), 1, fp);
-			break;
-		}
-	}
-	fclose(fp);
-	free(vndLido);
+    vndLido = (Venda *)malloc(sizeof(Venda));
+    fp = fopen("venda.dat", "r+b");
+    if (fp == NULL)
+    {
+        printf("\nVenda não encontrada!\n");
+    }
+    while (!feof(fp))
+    {
+        achou = 0;
+        while (fread(vndLido, sizeof(Venda), 1, fp) && !achou)
+        {
+            fread(vndLido, sizeof(Venda), 1, fp);
+            if (strcmp(vndLido->cupom, vnd->cupom) == 0)
+            {
+                achou = 1;
+                fseek(fp, -1 * sizeof(Venda), SEEK_CUR);
+                fwrite(vnd, sizeof(Venda), 1, fp);
+                break;
+            }
+        }
+        fclose(fp);
+        free(vndLido);
+    }
 }
-}
 
-void atualiza_venda(void) {
-	Venda* vnd;
-	char* cupom = (char*) malloc(100 * sizeof(char));
+void atualiza_venda(void)
+{
+    Venda *vnd;
+    char *cupom = (char *)malloc(100 * sizeof(char));
 
-	vnd = busca_venda();
-	if (vnd == NULL) {
-    	printf("\n\nVenda não encontrada!\n\n");
-  	} else {
-		  vnd = cadastrar_venda();
-		  strcpy(vnd->cupom, cupom);
-		  regrava_venda(vnd);
-		  free(vnd);
-	}
-	free(cupom);
+    vnd = busca_venda();
+    if (vnd == NULL)
+    {
+        printf("\n\nVenda não encontrada!\n\n");
+    }
+    else
+    {
+        vnd = cadastrar_venda();
+        strcpy(vnd->cupom, cupom);
+        regrava_venda(vnd);
+        free(vnd);
+    }
+    free(cupom);
 }
