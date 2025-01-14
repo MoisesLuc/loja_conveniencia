@@ -3,7 +3,37 @@
 #include <string.h>
 #include "vendas.h"
 
-char modulo_vendas(void) {
+void modulo_vendas(void) {
+    char opcao;
+    Venda* vd;
+
+    do {
+        opcao = menu_vendas();
+        switch(opcao) {
+            case '1':
+                vd = cadastrar_venda();
+                grava_venda(vd);
+                free(vd);
+                break;
+            case '2':
+                vd = busca_venda();
+                exibe_venda(vd);
+                free(vd);
+                break;
+            case '3':
+                atualiza_venda(); 
+                free(vd);
+                break;
+            case '4':
+                vd = busca_venda();
+                exclui_venda(vd);
+                free(vd);
+                break;
+            }
+    } while (opcao != '0');
+}
+
+char menu_vendas(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -92,6 +122,9 @@ void exibe_venda(Venda *vnd) {
         printf("    Situação: %s\n", (vnd->status == 'c') ? "Cadastrada" : "Desconhecida");
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
+    printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void exclui_venda(Venda *vndLido) {
@@ -132,6 +165,10 @@ void exclui_venda(Venda *vndLido) {
         }
         fclose(fp);
     }
+
+    printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void regrava_venda(Venda *vnd) {

@@ -8,7 +8,8 @@ struct produto {
     char status;
 };
 
-char modulo_produtos(void);
+void modulo_produtos(void);
+char menu_produtos(void);
 Produto* cadastrar_produto(void);
 void grava_produto(Produto*);
 void exibe_produto(Produto*);

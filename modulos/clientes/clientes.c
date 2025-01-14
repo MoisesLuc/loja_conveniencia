@@ -3,7 +3,37 @@
 #include <string.h>
 #include "clientes.h"
 
-char modulo_clientes(void) {
+void modulo_clientes(void) {
+    char opcao;
+    Cliente* cl;
+
+    do {
+        opcao = menu_clientes();
+        switch(opcao) {
+            case '1':
+                cl = cadastrar_cliente();
+                grava_cliente(cl);
+                free(cl);
+                break;
+            case '2':
+                cl = busca_cliente();
+                exibe_cliente(cl);
+                free(cl);
+                break;
+            case '3':
+                atualiza_cliente(); 
+                free(cl);  
+                break;
+            case '4':
+                cl = busca_cliente();
+                exclui_cliente(cl);
+                free(cl);
+                break;
+            }
+    } while (opcao != '0');
+}
+
+char menu_clientes(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -105,14 +135,12 @@ void exclui_cliente(Cliente *clnLido) {
     Cliente *clnArq;
 
     int achou = 0;
-    if (clnLido == NULL)
-    {
+    if (clnLido == NULL) {
         printf("O Cliente informado não existe!\n");
     }
-    else
-    {
+    else {
         clnArq = (Cliente *)malloc(sizeof(Cliente));
-        fp = fopen("cliente.dat", "r+b");
+        fp = fopen("clientes.dat", "r+b");
         if (fp == NULL)
         {
             printf("Ops! Erro abertura do arquivo!\n");
@@ -120,11 +148,9 @@ void exclui_cliente(Cliente *clnLido) {
             exit(1);
         }
 
-        while (!feof(fp))
-        {
+        while (!feof(fp)) {
             fread(clnArq, sizeof(Cliente), 1, fp);
-            if ((strcmp(clnArq->cpf, clnLido->cpf) == 0) && (clnArq->status != 'd'))
-            {
+            if ((strcmp(clnArq->cpf, clnLido->cpf) == 0) && (clnArq->status != 'd')) {
                 achou = 1;
                 clnArq->status = 'd';
                 fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);
@@ -132,12 +158,15 @@ void exclui_cliente(Cliente *clnLido) {
                 printf("\nCliente excluído!\n");
             }
         }
-        if (!achou)
-        {
+        if (!achou) {
             printf("\nCliente não encontrado!\n");
         }
         fclose(fp);
     }
+
+    printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void regrava_cliente(Cliente *cln) {

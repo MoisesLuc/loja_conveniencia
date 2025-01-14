@@ -8,7 +8,8 @@ struct cliente {
     char status;
 };
 
-char modulo_clientes(void);
+void modulo_clientes(void);
+char menu_clientes(void);
 Cliente* cadastrar_cliente(void);
 void grava_cliente(Cliente*);
 void exibe_cliente(Cliente*);

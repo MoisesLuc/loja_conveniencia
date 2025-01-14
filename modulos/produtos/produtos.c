@@ -3,7 +3,37 @@
 #include <string.h>
 #include "produtos.h"
 
-char modulo_produtos(void) {
+void modulo_produtos(void) {
+    char opcao;
+    Produto* pd;
+
+    do {
+        opcao = menu_produtos();
+        switch(opcao) {
+            case '1':
+                pd = cadastrar_produto();
+                grava_produto(pd);
+                free(pd);
+                break;
+            case '2':
+                pd = busca_produto();
+                exibe_produto(pd);
+                free(pd);
+                break;
+            case '3':
+                atualiza_produto(); 
+                free(pd); 
+                break; 
+            case '4':
+                pd = busca_produto();
+                exclui_produto(pd);
+                free(pd);
+                break;
+            }
+    } while (opcao != '0');
+}
+
+char menu_produtos(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -105,7 +135,7 @@ void exclui_produto(Produto *pdtLido) {
         printf("O produto informado não existe!\n");
     } else {
         pdtArq = (Produto *)malloc(sizeof(Produto));
-        fp = fopen("produto.dat", "r+b");
+        fp = fopen("produtos.dat", "r+b");
         if (fp == NULL) {
             printf("Ops! Erro abertura do arquivo!\n");
             printf("Não é possível continuar...\n");
@@ -120,13 +150,19 @@ void exclui_produto(Produto *pdtLido) {
                 fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
                 fwrite(pdtArq, sizeof(Produto), 1, fp);
                 printf("\nProduto excluído!\n");
+                
             }
         }
         if (!achou) {
             printf("\nProduto não encontrado!\n");
         }
+
         fclose(fp);
     }
+
+    printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void regrava_produto(Produto *pdt) {

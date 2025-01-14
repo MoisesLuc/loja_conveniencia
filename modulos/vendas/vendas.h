@@ -8,7 +8,8 @@ struct venda {
     char status;
 };
 
-char modulo_vendas(void);
+void modulo_vendas(void);
+char menu_vendas(void);
 Venda* cadastrar_venda(void);
 void grava_venda(Venda*);
 void exibe_venda(Venda*);
