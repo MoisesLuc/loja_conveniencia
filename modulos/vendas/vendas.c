@@ -3,8 +3,7 @@
 #include <string.h>
 #include "vendas.h"
 
-char modulo_vendas(void)
-{
+char modulo_vendas(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -20,8 +19,7 @@ char modulo_vendas(void)
     return op;
 }
 
-Venda *cadastrar_venda(void)
-{
+Venda *cadastrar_venda(void) {
     Venda *vnd = (Venda *)malloc(sizeof(Venda));
     printf("\n");
     printf("\n=============== Cadastrar Venda ==============\n");
@@ -37,8 +35,8 @@ Venda *cadastrar_venda(void)
     vnd->status = 'c';
     return vnd;
 }
-void grava_venda(Venda *vnd)
-{
+
+void grava_venda(Venda *vnd) {
     FILE *fp = fopen("vendas.dat", "ab");
     if (fp == NULL)
     {
@@ -49,8 +47,7 @@ void grava_venda(Venda *vnd)
     fclose(fp);
 }
 
-Venda *busca_venda(void)
-{
+Venda *busca_venda(void) {
     FILE *fp = fopen("vendas.dat", "rb");
     Venda *vnd = (Venda *)malloc(sizeof(Venda));
     char cupom[5];
@@ -64,6 +61,7 @@ Venda *busca_venda(void)
 
     printf("\nInforme o cumpom fiscal: ");
     scanf(" %4[^\n]", cupom);
+    getchar();
 
     while (fread(vnd, sizeof(Venda), 1, fp))
     {
@@ -79,8 +77,7 @@ Venda *busca_venda(void)
     return NULL;
 }
 
-void exibe_venda(Venda *vnd)
-{
+void exibe_venda(Venda *vnd) {
     if (vnd == NULL)
     {
         printf("\n= = = = = = = Venda Inexistente  = = = = = = =\n");
@@ -93,11 +90,11 @@ void exibe_venda(Venda *vnd)
         printf("    Total: %s\n", vnd->valor);
         printf("    Forma de pagamento: %s\n", vnd->pagamento);
         printf("    Situação: %s\n", (vnd->status == 'c') ? "Cadastrada" : "Desconhecida");
+        printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 }
 
-void exclui_venda(Venda *vndLido)
-{
+void exclui_venda(Venda *vndLido) {
     FILE *fp;
     Venda *vndArq;
 
@@ -137,8 +134,7 @@ void exclui_venda(Venda *vndLido)
     }
 }
 
-void regrava_venda(Venda *vnd)
-{
+void regrava_venda(Venda *vnd) {
     int achou;
     FILE *fp;
     Venda *vndLido;
@@ -168,8 +164,7 @@ void regrava_venda(Venda *vnd)
     }
 }
 
-void atualiza_venda(void)
-{
+void atualiza_venda(void) {
     Venda *vnd;
     char *cupom = (char *)malloc(100 * sizeof(char));
 

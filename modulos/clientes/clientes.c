@@ -3,8 +3,7 @@
 #include <string.h>
 #include "clientes.h"
 
-char modulo_clientes(void)
-{
+char modulo_clientes(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -20,8 +19,7 @@ char modulo_clientes(void)
     return op;
 }
 
-Cliente *cadastrar_cliente(void)
-{
+Cliente *cadastrar_cliente(void) {
     Cliente *cln = (Cliente *)malloc(sizeof(Cliente));
     printf("\n");
     printf("\n=============== Cadastrar Clientes ==============\n");
@@ -41,8 +39,7 @@ Cliente *cadastrar_cliente(void)
     getchar();
     return cln;
 }
-void grava_cliente(Cliente *cln)
-{
+void grava_cliente(Cliente *cln) {
     FILE *fp = fopen("clientes.dat", "ab");
     if (fp == NULL)
     {
@@ -53,8 +50,7 @@ void grava_cliente(Cliente *cln)
     fclose(fp);
 }
 
-Cliente *busca_cliente(void)
-{
+Cliente *busca_cliente(void) {
     FILE *fp = fopen("clientes.dat", "rb");
     Cliente *cln = (Cliente *)malloc(sizeof(Cliente));
     char cpf[12];
@@ -84,8 +80,7 @@ Cliente *busca_cliente(void)
     return NULL;
 }
 
-void exibe_cliente(Cliente *cln)
-{
+void exibe_cliente(Cliente *cln) {
     if (cln == NULL)
     {
         printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
@@ -98,14 +93,14 @@ void exibe_cliente(Cliente *cln)
         printf("    E-mail: %s\n", cln->email);
         printf("    Celular: %s\n", cln->celular);
         printf("    Situação: %s\n", (cln->status == 'c') ? "Cadastrado" : "Desconhecida");
+        printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
     printf("Tecle enter para continuar...\n");
     getchar();
 }
 
-void exclui_cliente(Cliente *clnLido)
-{
+void exclui_cliente(Cliente *clnLido) {
     FILE *fp;
     Cliente *clnArq;
 
@@ -145,8 +140,7 @@ void exclui_cliente(Cliente *clnLido)
     }
 }
 
-void regrava_cliente(Cliente *cln)
-{
+void regrava_cliente(Cliente *cln) {
     int achou;
     FILE *fp;
     Cliente *clnLido;
@@ -176,8 +170,7 @@ void regrava_cliente(Cliente *cln)
     }
 }
 
-void atualiza_cliente(void)
-{
+void atualiza_cliente(void) {
     Cliente *cln;
     char cpf[12];
 
