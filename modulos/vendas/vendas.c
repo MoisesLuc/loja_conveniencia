@@ -64,6 +64,7 @@ Venda *busca_venda(void)
 
     printf("\nInforme o cumpom fiscal: ");
     scanf(" %4[^\n]", cupom);
+    getchar();
 
     while (fread(vnd, sizeof(Venda), 1, fp))
     {

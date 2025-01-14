@@ -69,6 +69,7 @@ Produto *busca_produto(void)
 
     printf("\nInforme o código do produto: ");
     scanf(" %5[^\n]", codigop);
+    getchar();
 
     while (fread(pdt, sizeof(Produto), 1, fp))
     {
@@ -88,11 +89,11 @@ void exibe_produto(Produto *pdt)
 {
     if (pdt == NULL)
     {
-        printf("\n= = = = = = = Cliente Inexistente  = = = = = = =\n");
+        printf("\n= = = = = = = Produto Inexistente  = = = = = = =\n");
     }
     else
     {
-        printf("\n= = = = = = =  Cliente Cadastrado  = = = = = = =\n");
+        printf("\n= = = = = = =  Produto Cadastrado  = = = = = = =\n");
         printf("    Nome: %s\n", pdt->nomep);
         printf("    Código: %s\n", pdt->codigop);
         printf("    Marca: %s\n", pdt->marca);
@@ -100,7 +101,7 @@ void exibe_produto(Produto *pdt)
         printf("    Situação: %s\n", (pdt->status == 'c') ? "Cadastrado" : "Desconhecida");
     }
     printf("\n");
-    printf("Tecle enter para continuar...");
+    printf("Tecle enter para continuar...\n");
     getchar();
 }
 

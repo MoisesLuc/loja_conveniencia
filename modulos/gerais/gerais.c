@@ -31,7 +31,7 @@ void informacoes_gerais(void)
     printf("\n");
     printf("____________________________________________________________________\n");
     printf("||                                                                ||\n");
-    printf("|| = = = = = = = = = Menu de informacões gerais = = = = = = = = = ||\n");
+    printf("|| = = = = = = = = = Menu de informacões gerais = = = = = = = = = |Cliente|\n");
     printf("||                                                                ||\n");
     printf("||           Universidade Federal do Rio Grande do Norte          ||\n");
     printf("||              Centro de Ensino Superior do Seridó               ||\n");
