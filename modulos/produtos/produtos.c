@@ -18,6 +18,8 @@ void modulo_produtos(void) {
             case '2':
                 pd = busca_produto();
                 exibe_produto(pd);
+                printf("Tecle enter para continuar...");
+                getchar();
                 free(pd);
                 break;
             case '3':
@@ -122,8 +124,6 @@ void exibe_produto(Produto *pdt) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...");
-    getchar();
 }
 
 void exclui_produto(Produto *pdtLido) {

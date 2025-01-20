@@ -49,6 +49,7 @@ void modulo_rltr_produtos(void) {
         opcao = menu_rltr_produtos();
         switch (opcao) {
             case '1':
+                rltr_todos_produtos();
                 break;
             case '2':
                 break;
@@ -130,11 +131,37 @@ void rltr_todos_clientes(void) {
 
 
 char menu_rltr_produtos(void) {
-    char op = '0';
+    char op;
     system("clear||cls");
     printf("\n============ Relatório dos Produtos =============\n");
+    printf("    1 - Ver Tudo\n");
+    printf("    0 - Sair\n");
+    printf("    Escolha uma opção: ");
+    scanf(" %c", &op);
     getchar();
     return op;
+}
+
+void rltr_todos_produtos(void) {
+    FILE* fp;
+    Produto* produto = (Produto*) malloc (sizeof(Produto));
+
+    fp = fopen("produtos.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(produto);
+    }
+
+    while (fread(produto, sizeof(Produto), 1, fp)) {
+        if (produto != NULL) {
+            exibe_produto(produto);
+        }
+    }
+    printf("Tecle enter para continuar...");
+    getchar();
+
+    free(produto);
+    fclose(fp);
 }
 
 

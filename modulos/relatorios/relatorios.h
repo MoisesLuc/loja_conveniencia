@@ -7,6 +7,7 @@ void rltr_todos_clientes(void);
 
 void modulo_rltr_produtos(void);
 char menu_rltr_produtos(void);
+void rltr_todos_produtos(void);
 
 void modulo_rltr_vendas(void);
 char menu_rltr_vendas(void);
