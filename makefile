@@ -2,10 +2,10 @@
 PROJ_NAME=programa
  
 # Arquivos .c
-C_SOURCE=$(wildcard *.c modulos/clientes/*.c modulos/gerais/*.c modulos/produtos/*.c modulos/vendas/*.c)
+C_SOURCE=$(wildcard *.c modulos/clientes/*.c modulos/gerais/*.c modulos/produtos/*.c modulos/vendas/*.c modulos/relatorios/*.c)
  
 # Arquivos .h
-H_SOURCE=$(wildcard *.h modulos/clientes/*.h modulos/gerais/*.h modulos/produtos/*.h modulos/vendas/*.h)
+H_SOURCE=$(wildcard *.h modulos/clientes/*.h modulos/gerais/*.h modulos/produtos/*.h modulos/vendas/*.h modulos/relatorios/*.h)
  
 # Arquivos .o
 OBJ=$(C_SOURCE:.c=.o)
