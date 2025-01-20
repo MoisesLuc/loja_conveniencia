@@ -65,6 +65,7 @@ void modulo_rltr_vendas(void) {
         opcao = menu_rltr_vendas();
         switch (opcao) {
             case '1':
+                rltr_todos_vendas();
                 break;
             case '2':
                 break;
@@ -136,10 +137,38 @@ char menu_rltr_produtos(void) {
     return op;
 }
 
+
+
 char menu_rltr_vendas(void) {
-    char op = '0';
+    char op;
     system("clear||cls");
-    printf("\n============ Relatório das Vendas =============\n");
+    printf("\n============ Relatório de Vendas =============\n");
+    printf("    1 - Ver Tudo\n");
+    printf("    0 - Sair\n");
+    printf("    Escolha uma opção: ");
+    scanf(" %c", &op);
     getchar();
     return op;
+}
+
+void rltr_todos_vendas(void) {
+    FILE* fp;
+    Venda* venda = (Venda*) malloc (sizeof(Venda));
+
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(venda);
+    }
+
+    while (fread(venda, sizeof(Venda), 1, fp)) {
+        if (venda != NULL) {
+            exibe_venda(venda);
+        }
+    }
+    printf("Tecle enter para continuar...");
+    getchar();
+
+    free(venda);
+    fclose(fp);
 }

@@ -18,6 +18,8 @@ void modulo_vendas(void) {
             case '2':
                 vd = busca_venda();
                 exibe_venda(vd);
+                printf("Tecle enter para continuar...");
+                getchar();
                 free(vd);
                 break;
             case '3':
@@ -123,8 +125,6 @@ void exibe_venda(Venda *vnd) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...");
-    getchar();
 }
 
 void exclui_venda(Venda *vndLido) {
