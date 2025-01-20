@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "relatorios.h"
-// #include "modulos/produtos/produtos.h"
-// #include "modulos/clientes/clientes.h"
-// #include "modulos/vendas/vendas.h"
+#include "../produtos/produtos.h"
+#include "../clientes/clientes.h"
+#include "../vendas/vendas.h"
 
 void modulo_relatorios(void) {
     char opcao;
@@ -32,6 +32,7 @@ void modulo_rltr_clientes(void) {
         opcao = menu_rltr_clientes();
         switch (opcao) {
             case '1':
+                rltr_todos_clientes();
                 break;
             case '2':
                 break;
@@ -89,13 +90,43 @@ char menu_relatorios(void) {
     return op;
 }
 
+
+
 char menu_rltr_clientes(void) {
-    char op = '0';
+    char op;
     system("clear||cls");
     printf("\n============ Relatório dos Clientes =============\n");
+    printf("    1 - Ver Tudo\n");
+    printf("    0 - Sair\n");
+    printf("    Escolha uma opção: ");
+    scanf(" %c", &op);
     getchar();
     return op;
 }
+
+void rltr_todos_clientes(void) {
+    FILE* fp;
+    Cliente* cliente = (Cliente*) malloc (sizeof(Cliente));
+
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(cliente);
+    }
+
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+        if (cliente != NULL) {
+            exibe_cliente(cliente);
+        }
+    }
+    printf("Tecle enter para continuar...\n");
+    getchar();
+
+    free(cliente);
+    fclose(fp);
+}
+
+
 
 char menu_rltr_produtos(void) {
     char op = '0';

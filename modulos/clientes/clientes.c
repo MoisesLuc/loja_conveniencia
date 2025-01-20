@@ -18,6 +18,8 @@ void modulo_clientes(void) {
             case '2':
                 cl = busca_cliente();
                 exibe_cliente(cl);
+                printf("Tecle enter para continuar...\n");
+                getchar();
                 free(cl);
                 break;
             case '3':
@@ -126,8 +128,6 @@ void exibe_cliente(Cliente *cln) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...\n");
-    getchar();
 }
 
 void exclui_cliente(Cliente *clnLido) {

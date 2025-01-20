@@ -3,6 +3,7 @@ char menu_relatorios(void);
 
 void modulo_rltr_clientes(void);
 char menu_rltr_clientes(void);
+void rltr_todos_clientes(void);
 
 void modulo_rltr_produtos(void);
 char menu_rltr_produtos(void);
