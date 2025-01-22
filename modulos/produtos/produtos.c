@@ -18,8 +18,6 @@ void modulo_produtos(void) {
             case '2':
                 pd = busca_produto();
                 exibe_produto(pd);
-                printf("Tecle enter para continuar...");
-                getchar();
                 free(pd);
                 break;
             case '3':
@@ -57,7 +55,7 @@ Produto *cadastrar_produto(void) {
     printf("\n=============== Cadastrar Produto ==============\n");
     printf("\n");
     printf("    Informe o nome do produto: ");
-    scanf(" %54[^\n]", pdt->nomep);
+    scanf(" %54[^\n]", pdt->nome);
     getchar();
     printf("    Informe o código do produto: ");
     scanf(" %5[^\n]", pdt->codigo);
@@ -123,7 +121,7 @@ void exibe_produto(Produto *pdt) {
     }
     else {
         printf("\n= = = = = = =  Produto Cadastrado  = = = = = = =\n");
-        printf("    Nome: %s\n", pdt->nomep);
+        printf("    Nome: %s\n", pdt->nome);
         printf("    Código: %s\n", pdt->codigo);
         printf("    Marca: %s\n", pdt->marca);
         printf("    Preço: %s\n", pdt->preco);
@@ -131,6 +129,8 @@ void exibe_produto(Produto *pdt) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
 }
 
 void exclui_produto(Produto *pdtLido) {

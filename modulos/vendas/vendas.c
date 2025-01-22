@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "vendas.h"
+#include "../produtos/produtos.h"
 
 void modulo_vendas(void) {
     char opcao;
@@ -18,8 +19,6 @@ void modulo_vendas(void) {
             case '2':
                 vd = busca_venda();
                 exibe_venda(vd);
-                printf("Tecle enter para continuar...");
-                getchar();
                 free(vd);
                 break;
             case '3':
@@ -58,8 +57,8 @@ Venda *cadastrar_venda(void) {
     printf("\n");
     printf("    Informe o cumpom fiscal: ");
     scanf(" %4[^\n]", vnd->cupom);
-    printf("    Informe os nome dos produtos vendidos: ");
-    scanf(" %99[^\n]", vnd->pv);
+    printf("    Informe o código do produto vendido: ");
+    scanf(" %5[^\n]", vnd->cod_prodt);
     printf("    Informe o valor da compra: ");
     scanf(" %4[^\n]", vnd->valor);
     printf("    Informe a forma de pagamento: ");
@@ -84,8 +83,7 @@ Venda *busca_venda(void) {
     Venda *vnd = (Venda *)malloc(sizeof(Venda));
     char cupom[5];
 
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
         free(vnd);
         return NULL;
@@ -118,13 +116,16 @@ void exibe_venda(Venda *vnd) {
     {
         printf("\n= = = = = = =  Venda Cadastrada  = = = = = = =\n");
         printf("    Cupom: %s\n", vnd->cupom);
-        printf("    Produtos vendidos: %s\n", vnd->pv);
+        printf("    Produtos vendidos: %s\n", vnd->cod_prodt);
         printf("    Total: %s\n", vnd->valor);
         printf("    Forma de pagamento: %s\n", vnd->pagamento);
         printf("    Situação: %s\n", (vnd->status == 'c') ? "Cadastrada" : "Desconhecida");
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
+    printf("Tecle enter para continuar...");
+    getchar();
+
 }
 
 void exclui_venda(Venda *vndLido) {

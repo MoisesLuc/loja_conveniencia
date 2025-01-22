@@ -1,8 +1,8 @@
 typedef struct venda Venda;
 
 struct venda {
-    char cupom[5];
-    char pv[100];
+    char cupom[5]; // Cupom fiscal, trocar por código?
+    char cod_prodt[5];
     char valor[5];
     char pagamento[20];
     char status;
