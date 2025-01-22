@@ -50,12 +50,12 @@ void modulo_rltr_produtos(void) {
             case '1':
                 rltr_todos_produtos();
                 break;
-            // case '2':
-            //     rltr_marca_produtos();
-            //     break;
-            // case '3': 
-            //     rltr_prec_produtos();
-            //     break;
+            case '2':
+                rltr_marca_produtos();
+                break;
+            case '3': 
+                rltr_preco_produtos();
+                break;
         }
     } while (opcao != '0');
 }
@@ -209,71 +209,88 @@ void rltr_todos_produtos(void) {
     fclose(fp);
 } 
 
-// void rltr_produtos_por_marca(const char* marcaFiltro) {
-//     FILE* arquivo;
-//     Produto entrada;
-//     int encontrado = 0;
+void rltr_marca_produtos(void) {
+    FILE* arquivo;
+    Produto* produto = (Produto*) malloc (sizeof(Produto));
+    int encontrado = 0;
+    char marca[22];
 
-//     arquivo = fopen("produtos.dat", "rb");
-//     if (arquivo == NULL) {
-//         printf("Erro ao abrir o arquivo para leitura.\n");
-//         return;
-//     }
+    arquivo = fopen("produtos.dat", "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
 
-//     printf("Relatório de Produtos (Filtrado por Marca: %s):\n", marcaFiltro);
-//     printf("-------------------------\n");
+    printf("\nInforme a marca do produto: ");
+    scanf(" %22[^\n]", marca);
+    getchar();
 
-//     while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
-//         if (strcmp(entrada.marca, marcaFiltro) == 0) {
-//             encontrado = 1;
-//             printf("ID Código: %d\n", entrada.id_codigo);
-//             printf("Nome: %s\n", entrada.nomep);
-//             printf("Marca: %s\n", entrada.marca);
-//             printf("Quantidade em Estoque: %d\n", entrada.codigop);
-//             printf("Valor: %s\n", entrada.preco);
-//             printf("-------------------------\n");
-//         }
-//     }
+    printf("Relatório de Produtos (Filtrado por Marca: %s):\n", marca);
+    printf("-------------------------\n");
 
-//     if (!encontrado) {
-//         printf("Nenhum produto encontrado com a marca: %s\n", marcaFiltro);
-//     }
+    while (fread(produto, sizeof(Produto), 1, arquivo)) {
+        if (strcmp(produto->marca, marca) == 0) {
+            encontrado = 1;
+            printf("ID Código: %s\n", produto->codigo);
+            printf("Nome: %s\n", produto->nomep);
+            printf("Marca: %s\n", produto->marca);
+            printf("Quantidade em Estoque: %s\n", produto->codigo);
+            printf("Valor: %s\n", produto->preco);
+            printf("-------------------------\n");
+        }
+    }
 
-//     fclose(arquivo);
-// }
+    if (!encontrado) {
+        printf("Nenhum produto encontrado com a marca: %s\n", marca);
+    }
 
-// void rltr_produtos_por_prec(const char* precoFiltro) {
-//     FILE* arquivo;
-//     Produto entrada;
-//     int encontrado = 0;
+    printf("Tecle enter para continuar...");
+    getchar();
 
-//     arquivo = fopen("produtos.dat", "rb");
-//     if (arquivo == NULL) {
-//         printf("Erro ao abrir o arquivo para leitura.\n");
-//         return;
-//     }
+    free(produto);
+    fclose(arquivo);
+}
 
-//     printf("Relatório de Produtos (Filtrado por Valor: %s):\n", precoFiltro);
-//     printf("-------------------------\n");
+void rltr_preco_produtos(void) {
+    FILE* arquivo;
+    Produto* produto = (Produto*) malloc (sizeof(Produto));
+    int encontrado = 0;
+    char preco[5];
 
-//     while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
-//         if (strcmp(entrada->preco, precoFiltro) == 0) {
-//             encontrado = 1;
-//             printf("ID Código: %d\n", entrada->id_codigo);
-//             printf("Nome: %s\n", entrada.nomep);
-//             printf("Código: %s\n", entrada.codigop);
-//             printf("Marca: %s\n", entrada.marca);
-//             printf("Preço: %s\n", entrada.preco);
-//             printf("-------------------------\n");
-//         }
-//     }
+    arquivo = fopen("produtos.dat", "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
 
-//     if (!encontrado) {
-//         printf("Nenhum produto encontrado com o valor: %s\n", precoFiltro);
-//     }
+    printf("\nInforme o preco do produto: ");
+    scanf(" %22[^\n]", preco);
+    getchar();
+    printf("Relatório de Produtos (Filtrado por Valor: %s):\n", preco);
+    printf("-------------------------\n");
 
-//     fclose(arquivo);
-// }
+    while (fread(produto, sizeof(Produto), 1, arquivo)) {
+        if (strcmp(produto->preco, preco) == 0) {
+            encontrado = 1;
+            printf("ID Código: %s\n", produto->codigo);
+            printf("Nome: %s\n", produto->nomep);
+            printf("Código: %s\n", produto->codigo);
+            printf("Marca: %s\n", produto->marca);
+            printf("Preço: %s\n", produto->preco);
+            printf("-------------------------\n");
+        }
+    }
+
+    if (!encontrado) {
+        printf("Nenhum produto encontrado com o valor: %s\n", preco);
+    }
+
+    printf("Tecle enter para continuar...");
+    getchar();
+
+    free(produto);
+    fclose(arquivo);
+}
 
 
 
