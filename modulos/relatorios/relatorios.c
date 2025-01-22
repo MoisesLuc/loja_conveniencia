@@ -35,10 +35,7 @@ void modulo_rltr_clientes(void) {
                 rltr_todos_clientes();
                 break;
             case '2':
-            rltr_nome_clientes();
-                break;
-            case '3':
-            rltr_cpf_clientes();
+                rltr_nome_clientes();
                 break;
         }
     } while (opcao != '0');
@@ -53,12 +50,12 @@ void modulo_rltr_produtos(void) {
             case '1':
                 rltr_todos_produtos();
                 break;
-            case '2':
-            rltr_marca_produtos();
-                break;
-            case '3': 
-            rltr_prec_produtos();
-                break;
+            // case '2':
+            //     rltr_marca_produtos();
+            //     break;
+            // case '3': 
+            //     rltr_prec_produtos();
+            //     break;
         }
     } while (opcao != '0');
 }
@@ -72,15 +69,14 @@ void modulo_rltr_vendas(void) {
             case '1':
                 rltr_todos_vendas();
                 break;
-            case '2':
-            rltr_cupfisc_vendas();
-                break;
-            case '3':
-            rltr_valor_vendas();
-                break;
+            // case '2':
+            //     rltr_valor_vendas();
+            //     break;
         }
     } while (opcao != '0');
 }
+
+
 
 /////////////////// MENUS ////////////////////
 
@@ -104,8 +100,7 @@ char menu_rltr_clientes(void) {
     system("clear||cls");
     printf("\n============ Relatório dos Clientes =============\n");
     printf("    1 - Ver Tudo\n");
-    printf("    2 - Nome    \n");
-    printf("    3 - CPF     \n");
+    printf("    2 - Filtrar por Nome\n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");
     scanf(" %c", &op);
@@ -135,100 +130,47 @@ void rltr_todos_clientes(void) {
     fclose(fp);
 }
 
-typedef struct Clie nte {
-    char nome[55];
-    char cpf[12];
-    char email[55];
-    char celular[12];
-} Cliente;
-
-void rltr_clientes_por_marca(const char* marcaFiltro) {
-    FILE* arquivo;
-    Cliente entrada;
+void rltr_nome_clientes(void) {
+    FILE* fp;
+    Cliente* cliente = (Cliente*) malloc (sizeof(Cliente));
     int encontrado = 0;
+    char nome[22];
 
-    arquivo = fopen("clientes.dat", "rb");
-    if (arquivo == NULL) {
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
         return;
     }
 
-    printf("Relatório de Clientes (Filtrado por Marca: %s):\n", marcaFiltro);
+    printf("\nInforme o nome do cliente: ");
+    scanf(" %22[^\n]", nome);
+    getchar();
+
+    printf("Relatório de Clientes (Filtrado por Nome: %s):\n", nome);
     printf("-------------------------\n");
 
-    while (fread(&entrada, sizeof(Cliente), 1, arquivo)) {
-        if (strcmp(entrada.email, marcaFiltro) == 0) {
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+        if (strcmp(cliente->nome, nome) == 0 && cliente->status != 'd') {
             encontrado = 1;
-            printf("Nome: %s\n", entrada.nome);
-            printf("CPF: %s\n", entrada.cpf);
-            printf("Email: %s\n", entrada.email);
-            printf("Celular: %s\n", entrada.celular);
+            printf("Nome: %s\n", cliente->nome);
+            printf("CPF: %s\n", cliente->cpf);
+            printf("Email: %s\n", cliente->email);
+            printf("Celular: %s\n", cliente->celular);
             printf("-------------------------\n");
         }
     }
 
     if (!encontrado) {
-        printf("Nenhum cliente encontrado com a marca: %s\n", marcaFiltro);
+        printf("Nenhum cliente encontrado com o nome: %s\n", nome);
     }
 
-    fclose(arquivo);
+    printf("Tecle enter para continuar...\n");
+    getchar();
+
+    free(cliente);
+    fclose(fp);
 }
 
-int main() {
-    char marcaFiltro[55];
-
-    printf("Digite a marca para filtrar os clientes: ");
-    scanf("%54s", marcaFiltro);
-
-    rltr_clientes_por_marca(marcaFiltro);
-
-    return 0;
-}
-
-
-void rltr_clientes_por_cpf(const char* cpfFiltro) {
-    FILE* arquivo;
-    Cliente entrada;
-    int encontrado = 0;
-
-    arquivo = fopen("clientes.dat", "rb");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
-
-    printf("Relatório de Clientes (Filtrado por CPF: %s):\n", cpfFiltro);
-    printf("-------------------------\n");
-
-    while (fread(&entrada, sizeof(Cliente), 1, arquivo)) {
-        if (strcmp(entrada.cpf, cpfFiltro) == 0) {
-            encontrado = 1;
-            printf("Nome: %s\n", entrada.nome);
-            printf("CPF: %s\n", entrada.cpf);
-            printf("Email: %s\n", entrada.email);
-            printf("Celular: %s\n", entrada.celular);
-            printf("Status: %c\n", entrada.status);
-            printf("-------------------------\n");
-        }
-    }
-
-    if (!encontrado) {
-        printf("Nenhum cliente encontrado com o CPF: %s\n", cpfFiltro);
-    }
-
-    fclose(arquivo);
-}
-
-int main() {
-    char cpfFiltro[12];
-
-    printf("Digite o CPF para filtrar os clientes: ");
-    scanf("%11s", cpfFiltro);
-
-    rltr_clientes_por_cpf(cpfFiltro);
-
-    return 0;
-}
 
 
 char menu_rltr_produtos(void) {
@@ -267,105 +209,71 @@ void rltr_todos_produtos(void) {
     fclose(fp);
 } 
 
+// void rltr_produtos_por_marca(const char* marcaFiltro) {
+//     FILE* arquivo;
+//     Produto entrada;
+//     int encontrado = 0;
 
+//     arquivo = fopen("produtos.dat", "rb");
+//     if (arquivo == NULL) {
+//         printf("Erro ao abrir o arquivo para leitura.\n");
+//         return;
+//     }
 
-typedef struct {
-    int id_codigo;
-    char nomep[55];
-    char codigop[6];
-    char marca[20];
-    char preco[20];
-} Produto;
+//     printf("Relatório de Produtos (Filtrado por Marca: %s):\n", marcaFiltro);
+//     printf("-------------------------\n");
 
-void rltr_produtos_por_marca(const char* marcaFiltro) {
-    FILE* arquivo;
-    Produto entrada;
-    int encontrado = 0;
+//     while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
+//         if (strcmp(entrada.marca, marcaFiltro) == 0) {
+//             encontrado = 1;
+//             printf("ID Código: %d\n", entrada.id_codigo);
+//             printf("Nome: %s\n", entrada.nomep);
+//             printf("Marca: %s\n", entrada.marca);
+//             printf("Quantidade em Estoque: %d\n", entrada.codigop);
+//             printf("Valor: %s\n", entrada.preco);
+//             printf("-------------------------\n");
+//         }
+//     }
 
-    arquivo = fopen("produtos.dat", "rb");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
+//     if (!encontrado) {
+//         printf("Nenhum produto encontrado com a marca: %s\n", marcaFiltro);
+//     }
 
-    printf("Relatório de Produtos (Filtrado por Marca: %s):\n", marcaFiltro);
-    printf("-------------------------\n");
+//     fclose(arquivo);
+// }
 
-    while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
-        if (strcmp(entrada.marca, marcaFiltro) == 0) {
-            encontrado = 1;
-            printf("ID Código: %d\n", entrada.id_codigo);
-            printf("Nome: %s\n", entrada.nomep);
-            printf("Marca: %s\n", entrada.marca);
-            printf("Quantidade em Estoque: %d\n", entrada.codigop);
-            printf("Valor: %s\n", entrada.preco);
-            printf("-------------------------\n");
-        }
-    }
+// void rltr_produtos_por_prec(const char* precoFiltro) {
+//     FILE* arquivo;
+//     Produto entrada;
+//     int encontrado = 0;
 
-    if (!encontrado) {
-        printf("Nenhum produto encontrado com a marca: %s\n", marcaFiltro);
-    }
+//     arquivo = fopen("produtos.dat", "rb");
+//     if (arquivo == NULL) {
+//         printf("Erro ao abrir o arquivo para leitura.\n");
+//         return;
+//     }
 
-    fclose(arquivo);
-}
+//     printf("Relatório de Produtos (Filtrado por Valor: %s):\n", precoFiltro);
+//     printf("-------------------------\n");
 
-int main() {
-    char filtro[20];
+//     while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
+//         if (strcmp(entrada->preco, precoFiltro) == 0) {
+//             encontrado = 1;
+//             printf("ID Código: %d\n", entrada->id_codigo);
+//             printf("Nome: %s\n", entrada.nomep);
+//             printf("Código: %s\n", entrada.codigop);
+//             printf("Marca: %s\n", entrada.marca);
+//             printf("Preço: %s\n", entrada.preco);
+//             printf("-------------------------\n");
+//         }
+//     }
 
-    printf("Digite a marca para filtrar os produtos: ");
-    scanf("%19s", filtro);
+//     if (!encontrado) {
+//         printf("Nenhum produto encontrado com o valor: %s\n", precoFiltro);
+//     }
 
-    rltr_produtos_por_marca(filtro);
-
-    return 0;
-}
-
-
-void rltr_produtos_por_prec(const char* precoFiltro) {
-    FILE* arquivo;
-    Produto entrada;
-    int encontrado = 0;
-
-    arquivo = fopen("produtos.dat", "rb");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
-
-    printf("Relatório de Produtos (Filtrado por Valor: %s):\n", precoFiltro);
-    printf("-------------------------\n");
-
-    while (fread(&entrada, sizeof(Produto), 1, arquivo)) {
-        if (strcmp(entrada.preco, precoFiltro) == 0) {
-            encontrado = 1;
-            printf("ID Código: %d\n", entrada.id_codigo);
-            printf("Nome: %s\n", entrada.nomep);
-            printf("Código: %s\n", entrada.codigop);
-            printf("Marca: %s\n", entrada.marca);
-            printf("Preço: %s\n", entrada.preco);
-            printf("-------------------------\n");
-        }
-    }
-
-    if (!encontrado) {
-        printf("Nenhum produto encontrado com o valor: %s\n", precoFiltro);
-    }
-
-    fclose(arquivo);
-}
-
-int main() {
-    char precoFiltro[20];
-
-    printf("Digite o valor para filtrar os produtos: ");
-    scanf("%19s", precoFiltro);
-
-    rltr_produtos_por_prec(precoFiltro);
-
-    return 0;
-}
-
+//     fclose(arquivo);
+// }
 
 
 
@@ -405,87 +313,35 @@ void rltr_todos_vendas(void) {
     fclose(fp);
 }
 
+// void rltr_vendas_por_valor(float valorFiltro) {
+//     FILE* arquivo;
+//     Venda entrada;
+//     int encontrado = 0;
 
+//     arquivo = fopen("vendas.dat", "rb");
+//     if (arquivo == NULL) {
+//         printf("Erro ao abrir o arquivo para leitura.\n");
+//         return;
+//     }
 
-typedef struct {
-    char cupom[5];
-    char pv[100];
-    char valor[5];
-} Venda;
+//     printf("Relatório de Vendas (Filtrado por Valor Total: %.2f):\n", valorFiltro);
+//     printf("-------------------------\n");
 
-void rltr_vendas_por_cupom(const char* cupomFiltro) {
-    FILE* arquivo;
-    Venda entrada;
-    int encontrado = 0;
+//     while (fread(&entrada, sizeof(Venda), 1, arquivo)) {
+//         if (entrada.valor == valorFiltro) {
+//             encontrado = 1;
+//             printf("Cupom Fiscal: %d\n", entrada.cupom);
+//             printf("Nome dos Produtos: %s\n", entrada.pv);
+//             printf("Valor: %.2f\n", entrada.valor);
+//             printf("-------------------------\n");
+//         }
+//     }
 
-    arquivo = fopen("vendas.dat", "rb");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
+//     if (!encontrado) {
+//         printf("Nenhuma venda encontrada com o valor total: %.2f\n", valorFiltro);
+//     }
 
-    printf("Relatório de Vendas (Filtrado por Cupom Fiscal: %s):\n", cupomFiltro);
-    printf("-------------------------\n");
+//     fclose(arquivo);
 
-    while (fread(&entrada, sizeof(Venda), 1, arquivo)) {
-        if (strcmp(entrada.cupom, cupomFiltro) == 0) {
-            encontrado = 1;
-            printf("Cupom Fiscal: %d\n", entrada.cupom);
-            printf("Nome dos Produtos: %s\n", entrada.pv);
-            printf("Valor: %.2f\n", entrada.valor);
-            printf("-------------------------\n");
-        }
-    }
-
-    if (!encontrado) {
-        printf("Nenhuma venda encontrada com o cupom fiscal: %s\n", cupomFiltro);
-    }
-
-    fclose(arquivo);
-}
-
-int main() {
-    char filtro[30];
-
-    printf("Digite o cupom fiscal para filtrar as vendas: ");
-    scanf("%4s", filtro);
-
-    rltr_vendas_por_cupom(filtro);
-
-    return 0;
-}
-
-
-void rltr_vendas_por_valor(float valorFiltro) {
-    FILE* arquivo;
-    Venda entrada;
-    int encontrado = 0;
-
-    arquivo = fopen("vendas.dat", "rb");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
-
-    printf("Relatório de Vendas (Filtrado por Valor Total: %.2f):\n", valorFiltro);
-    printf("-------------------------\n");
-
-    while (fread(&entrada, sizeof(Venda), 1, arquivo)) {
-        if (entrada.valor == valorFiltro) {
-            encontrado = 1;
-            printf("Cupom Fiscal: %d\n", entrada.cupom);
-            printf("Nome dos Produtos: %s\n", entrada.pv);
-            printf("Valor: %.2f\n", entrada.valor);
-            printf("-------------------------\n");
-        }
-        }
-    }
-
-    if (!encontrado) {
-        printf("Nenhuma venda encontrada com o valor total: %.2f\n", valorFiltro);
-    }
-
-    fclose(arquivo);
-
-}
+// }
 
