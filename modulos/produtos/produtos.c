@@ -58,12 +58,16 @@ Produto *cadastrar_produto(void) {
     printf("\n");
     printf("    Informe o nome do produto: ");
     scanf(" %54[^\n]", pdt->nomep);
+    getchar();
     printf("    Informe o código do produto: ");
-    scanf(" %5[^\n]", pdt->codigop);
+    scanf(" %5[^\n]", pdt->codigo);
+    getchar();
     printf("    Informe a marca do produto: ");
     scanf(" %19[^\n]", pdt->marca);
+    getchar();
     printf("    Informe o preço do produto: ");
-    scanf("%f", &pdt->preco);
+    scanf(" %5[^\n]", pdt->preco);
+    getchar();
     pdt->status = 'c';
     printf("\n");
     printf("Produto cadastrado com sucesso!\n");
@@ -74,11 +78,14 @@ Produto *cadastrar_produto(void) {
 }
 
 void grava_produto(Produto *pdt) {
-    FILE *fp = fopen("produtos.dat", "ab");
+    FILE *fp;
+
+    fp = fopen("produtos.dat", "ab");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para gravação.\n");
         exit(1);
     }
+
     fwrite(pdt, sizeof(Produto), 1, fp);
     fclose(fp);
 }
@@ -86,7 +93,7 @@ void grava_produto(Produto *pdt) {
 Produto *busca_produto(void) {
     FILE *fp = fopen("produtos.dat", "rb");
     Produto *pdt = (Produto *)malloc(sizeof(Produto));
-    char codigop[5];
+    char codigo[5];
 
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
@@ -95,11 +102,11 @@ Produto *busca_produto(void) {
     }
 
     printf("\nInforme o código do produto: ");
-    scanf(" %5[^\n]", codigop);
+    scanf(" %5[^\n]", codigo);
     getchar();
 
     while (fread(pdt, sizeof(Produto), 1, fp)) {
-        if (strcmp(pdt->codigop, codigop) == 0 && pdt->status != 'd') {
+        if (strcmp(pdt->codigo, codigo) == 0 && pdt->status != 'd') {
             fclose(fp);
             return pdt;
         }
@@ -117,9 +124,9 @@ void exibe_produto(Produto *pdt) {
     else {
         printf("\n= = = = = = =  Produto Cadastrado  = = = = = = =\n");
         printf("    Nome: %s\n", pdt->nomep);
-        printf("    Código: %s\n", pdt->codigop);
+        printf("    Código: %s\n", pdt->codigo);
         printf("    Marca: %s\n", pdt->marca);
-        printf("    Preço: %f\n", pdt->preco);
+        printf("    Preço: %s\n", pdt->preco);
         printf("    Situação: %s\n", (pdt->status == 'c') ? "Cadastrado" : "Desconhecida");
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
@@ -144,7 +151,7 @@ void exclui_produto(Produto *pdtLido) {
 
         while (!feof(fp)) {
             fread(pdtArq, sizeof(Produto), 1, fp);
-            if ((strcmp(pdtArq->codigop, pdtLido->codigop) == 0) && (pdtArq->status != 'd')) {
+            if ((strcmp(pdtArq->codigo, pdtLido->codigo) == 0) && (pdtArq->status != 'd')) {
                 achou = 1;
                 pdtArq->status = 'd';
                 fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
@@ -179,7 +186,7 @@ void regrava_produto(Produto *pdt) {
         achou = 0;
         while (fread(pdtLido, sizeof(Produto), 1, fp) && !achou) {
             fread(pdtLido, sizeof(Produto), 1, fp);
-            if (strcmp(pdtLido->codigop, pdt->codigop) == 0) {
+            if (strcmp(pdtLido->codigo, pdt->codigo) == 0) {
                 achou = 1;
                 fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
                 fwrite(pdt, sizeof(Produto), 1, fp);
@@ -199,7 +206,7 @@ void atualiza_produto(void) {
         printf("\n\nProduto não encontrado!\n\n");
     } else {
         Produto *novo_pdt = cadastrar_produto();
-        strcpy(novo_pdt->codigop, "12345");
+        strcpy(novo_pdt->codigo, "12345");
         regrava_produto(novo_pdt);
         free(novo_pdt);
     }

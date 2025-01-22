@@ -2,9 +2,9 @@ typedef struct produto Produto;
 
 struct produto {
     char nomep[55];
-    char codigop[5];
+    char codigo[5];
     char marca[20];
-    float preco;
+    char preco[5];
     char status;
 };
 
