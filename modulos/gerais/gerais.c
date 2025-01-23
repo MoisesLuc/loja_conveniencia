@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "gerais.h"
 
-char 
-menu_principal(void) {
+char menu_principal(void) {
     char op;
     system("clear||cls");
     printf("\n");
