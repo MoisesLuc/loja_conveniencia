@@ -16,3 +16,4 @@ void modulo_rltr_vendas(void);
 char menu_rltr_vendas(void);
 void rltr_todos_vendas(void);
 void rltr_valor_vendas(void);
+void rltr_pagamento_vendas(void);

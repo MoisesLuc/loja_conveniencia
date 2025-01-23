@@ -72,6 +72,9 @@ void modulo_rltr_vendas(void) {
             case '2':
                 rltr_valor_vendas();
                 break;
+            case '3':
+                rltr_pagamento_vendas();
+                break;
         }
     } while (opcao != '0');
 }
@@ -348,6 +351,42 @@ void rltr_valor_vendas(void) {
 
     if (!encontrado) {
         printf("Nenhuma venda encontrada com o valor total: %s\n", valor);
+    }
+
+    printf("Tecle enter para continuar...");
+    getchar();
+
+    fclose(fp);
+}
+
+void rltr_pagamento_vendas(void) {
+    FILE* fp;
+    Venda* venda = (Venda*) malloc (sizeof(Venda));
+    int encontrado = 0;
+    char pagamento[20];
+
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
+
+    printf("\nInforme a forma de pagamento: ");
+    scanf(" %5[^\n]", pagamento);
+    getchar();
+
+    printf("Relatório de Vendas (Filtrado por forma de pagamento : %s):\n", pagamento);
+    printf("-------------------------\n");
+
+    while (fread(venda, sizeof(Venda), 1, fp)) {
+        if (strcmp(venda->pagamento, pagamento) == 0) {
+            encontrado = 1;
+            exibe_venda(venda);
+        }
+    }
+
+    if (!encontrado) {
+        printf("Nenhuma venda encontrada com a forma de pagamento atual: %s\n", pagamento);
     }
 
     printf("Tecle enter para continuar...");
