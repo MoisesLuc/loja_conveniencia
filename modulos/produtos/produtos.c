@@ -24,7 +24,6 @@ void modulo_produtos(void) {
                 break;
             case '3':
                 atualiza_produto(); 
-                free(pd); 
                 break; 
             case '4':
                 pd = busca_produto();
@@ -96,6 +95,7 @@ Produto *busca_produto(void) {
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura.\n");
         free(pdt);
+        fclose(fp);
         return NULL;
     }
 
@@ -110,8 +110,8 @@ Produto *busca_produto(void) {
         }
     }
 
-    fclose(fp);
     free(pdt);
+    fclose(fp);
     return NULL;
 }
 
@@ -171,29 +171,28 @@ void exclui_produto(Produto *pdtLido) {
 }
 
 void regrava_produto(Produto *pdt) {
-    int achou;
     FILE *fp;
     Produto *pdtLido;
 
     pdtLido = (Produto *)malloc(sizeof(Produto));
-    fp = fopen("produto.dat", "r+b");
+    fp = fopen("produtos.dat", "r+b");
+
     if (fp == NULL) {
         printf("\nProduto não encontrado!\n");
-    }
-    while (!feof(fp)) {
-        achou = 0;
-        while (fread(pdtLido, sizeof(Produto), 1, fp) && !achou) {
-            fread(pdtLido, sizeof(Produto), 1, fp);
-            if (strcmp(pdtLido->codigo, pdt->codigo) == 0) {
-                achou = 1;
-                fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
-                fwrite(pdt, sizeof(Produto), 1, fp);
-                break;
-            }
-        }
-        fclose(fp);
         free(pdtLido);
+        fclose(fp);
     }
+
+    while (fread(pdtLido, sizeof(Produto), 1, fp)) {
+        if (strcmp(pdtLido->codigo, pdt->codigo) == 0) {
+            fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
+            fwrite(pdt, sizeof(Produto), 1, fp);
+            break;
+        }
+    }
+
+    free(pdtLido);
+    fclose(fp);
 }
 
 void atualiza_produto(void) {
@@ -201,10 +200,11 @@ void atualiza_produto(void) {
 
     pdt = busca_produto();
     if (pdt == NULL) {
-        printf("\n\nProduto não encontrado!\n\n");
+        printf("\n\nProduto não encontrado\n\n");
+        printf("Tecle enter para continuar...");
+        getchar();
     } else {
         Produto *novo_pdt = cadastrar_produto();
-        strcpy(novo_pdt->codigo, "12345");
         regrava_produto(novo_pdt);
         free(novo_pdt);
     }

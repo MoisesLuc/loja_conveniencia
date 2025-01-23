@@ -182,13 +182,14 @@ void regrava_venda(Venda *vnd) {
     Venda *vndLido;
 
     vndLido = (Venda *)malloc(sizeof(Venda));
-    fp = fopen("venda.dat", "r+b");
-    if (fp == NULL)
-    {
+    fp = fopen("vendas.dat", "r+b");
+    if (fp == NULL) {
         printf("\nVenda não encontrada!\n");
+        free(vndLido);
+        fclose(fp);
     }
-    while (!feof(fp))
-    {
+
+    while (!feof(fp)) {
         achou = 0;
         while (fread(vndLido, sizeof(Venda), 1, fp) && !achou)
         {
@@ -201,9 +202,10 @@ void regrava_venda(Venda *vnd) {
                 break;
             }
         }
-        fclose(fp);
-        free(vndLido);
     }
+
+    fclose(fp);
+    free(vndLido);
 }
 
 void atualiza_venda(void) {
@@ -211,12 +213,12 @@ void atualiza_venda(void) {
     char *cupom = (char *)malloc(100 * sizeof(char));
 
     vnd = busca_venda();
-    if (vnd == NULL)
-    {
+    if (vnd == NULL) {
         printf("\n\nVenda não encontrada!\n\n");
+        printf("Tecle enter para continuar...");
+        getchar();
     }
-    else
-    {
+    else {
         vnd = cadastrar_venda();
         strcpy(vnd->cupom, cupom);
         regrava_venda(vnd);

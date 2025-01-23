@@ -13,10 +13,10 @@ void modulo_relatorios(void) {
         opcao = menu_relatorios();
         switch(opcao) {
             case '1':
-                modulo_rltr_clientes();
+                modulo_rltr_produtos();
                 break;
             case '2':
-                modulo_rltr_produtos();
+                modulo_rltr_clientes();
                 break;
             case '3':
                 modulo_rltr_vendas();
@@ -87,8 +87,8 @@ char menu_relatorios(void) {
     char op;
     system("clear||cls");
     printf("\n============ Módulo Relatórios =============\n");
-    printf("    1 - Relatórios de Clientes\n");
-    printf("    2 - Relatórios de Produtos\n");
+    printf("    1 - Relatórios de Produtos\n");
+    printf("    2 - Relatórios de Clientes\n");
     printf("    3 - Relatórios de Vendas\n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");

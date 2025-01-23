@@ -179,28 +179,28 @@ void regrava_cliente(Cliente *cln) {
     Cliente *clnLido;
 
     clnLido = (Cliente *)malloc(sizeof(Cliente));
-    fp = fopen("cliente.dat", "r+b");
-    if (fp == NULL)
-    {
+    fp = fopen("clientes.dat", "r+b");
+    if (fp == NULL) {
         printf("\nCliente não encontrado!\n");
+        free(clnLido);
+        fclose(fp);
     }
-    while (!feof(fp))
-    {
+
+    while (!feof(fp)) {
         achou = 0;
-        while (fread(clnLido, sizeof(Cliente), 1, fp) && !achou)
-        {
+        while (fread(clnLido, sizeof(Cliente), 1, fp) && !achou) {
             fread(clnLido, sizeof(Cliente), 1, fp);
-            if (strcmp(clnLido->cpf, cln->cpf) == 0)
-            {
+            if (strcmp(clnLido->cpf, cln->cpf) == 0) {
                 achou = 1;
                 fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);
                 fwrite(cln, sizeof(Cliente), 1, fp);
                 break;
             }
         }
-        fclose(fp);
-        free(clnLido);
     }
+
+    fclose(fp);
+    free(clnLido);
 }
 
 void atualiza_cliente(void) {
@@ -208,12 +208,12 @@ void atualiza_cliente(void) {
     char cpf[12];
 
     cln = busca_cliente();
-    if (cln == NULL)
-    {
+    if (cln == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
+        printf("Tecle enter para continuar...");
+        getchar();
     }
-    else
-    {
+    else {
         cln = cadastrar_cliente();
         strcpy(cln->cpf, cpf);
         regrava_cliente(cln);
