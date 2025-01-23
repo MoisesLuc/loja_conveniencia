@@ -18,6 +18,8 @@ void modulo_produtos(void) {
             case '2':
                 pd = busca_produto();
                 exibe_produto(pd);
+                printf("Tecle enter para continuar...\n");
+                getchar();
                 free(pd);
                 break;
             case '3':
@@ -76,9 +78,7 @@ Produto *cadastrar_produto(void) {
 }
 
 void grava_produto(Produto *pdt) {
-    FILE *fp;
-
-    fp = fopen("produtos.dat", "ab");
+    FILE *fp = fopen("produtos.dat", "ab");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para gravação.\n");
         exit(1);
@@ -129,8 +129,6 @@ void exibe_produto(Produto *pdt) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...");
-    getchar();
 }
 
 void exclui_produto(Produto *pdtLido) {

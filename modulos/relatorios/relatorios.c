@@ -69,9 +69,9 @@ void modulo_rltr_vendas(void) {
             case '1':
                 rltr_todos_vendas();
                 break;
-            // case '2':
-            //     rltr_valor_vendas();
-            //     break;
+            case '2':
+                rltr_valor_vendas();
+                break;
         }
     } while (opcao != '0');
 }
@@ -229,14 +229,9 @@ void rltr_marca_produtos(void) {
     printf("-------------------------\n");
 
     while (fread(produto, sizeof(Produto), 1, arquivo)) {
-        if (strcmp(produto->marca, marca) == 0) {
+        if (strcmp(produto->marca, marca) == 0 && produto->status != 'd') {
             encontrado = 1;
-            printf("ID Código: %s\n", produto->codigo);
-            printf("Nome: %s\n", produto->nomep);
-            printf("Marca: %s\n", produto->marca);
-            printf("Quantidade em Estoque: %s\n", produto->codigo);
-            printf("Valor: %s\n", produto->preco);
-            printf("-------------------------\n");
+            exibe_produto(produto);
         }
     }
 
@@ -266,18 +261,14 @@ void rltr_preco_produtos(void) {
     printf("\nInforme o preco do produto: ");
     scanf(" %22[^\n]", preco);
     getchar();
+
     printf("Relatório de Produtos (Filtrado por Valor: %s):\n", preco);
     printf("-------------------------\n");
 
     while (fread(produto, sizeof(Produto), 1, arquivo)) {
-        if (strcmp(produto->preco, preco) == 0) {
+        if (strcmp(produto->preco, preco) == 0 && produto->status != 'd') {
             encontrado = 1;
-            printf("ID Código: %s\n", produto->codigo);
-            printf("Nome: %s\n", produto->nomep);
-            printf("Código: %s\n", produto->codigo);
-            printf("Marca: %s\n", produto->marca);
-            printf("Preço: %s\n", produto->preco);
-            printf("-------------------------\n");
+            exibe_produto(produto);
         }
     }
 
@@ -299,8 +290,7 @@ char menu_rltr_vendas(void) {
     system("clear||cls");
     printf("\n============ Relatório de Vendas =============\n");
     printf("    1 - Ver Tudo\n");
-    printf("    2 - Cupom Fisc  \n");
-    printf("    3 - Valor   \n");
+    printf("    2 - Valor   \n");
     printf("    0 - Sair\n");
     printf("    Escolha uma opção: ");
     scanf(" %c", &op);
@@ -330,35 +320,40 @@ void rltr_todos_vendas(void) {
     fclose(fp);
 }
 
-// void rltr_vendas_por_valor(float valorFiltro) {
-//     FILE* arquivo;
-//     Venda entrada;
-//     int encontrado = 0;
+void rltr_valor_vendas(void) {
+    FILE* fp;
+    Venda* venda = (Venda*) malloc (sizeof(Venda));
+    int encontrado = 0;
+    char valor[5];
 
-//     arquivo = fopen("vendas.dat", "rb");
-//     if (arquivo == NULL) {
-//         printf("Erro ao abrir o arquivo para leitura.\n");
-//         return;
-//     }
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
 
-//     printf("Relatório de Vendas (Filtrado por Valor Total: %.2f):\n", valorFiltro);
-//     printf("-------------------------\n");
+    printf("\nInforme o valor das vendas: ");
+    scanf(" %5[^\n]", valor);
+    getchar();
 
-//     while (fread(&entrada, sizeof(Venda), 1, arquivo)) {
-//         if (entrada.valor == valorFiltro) {
-//             encontrado = 1;
-//             printf("Cupom Fiscal: %d\n", entrada.cupom);
-//             printf("Nome dos Produtos: %s\n", entrada.pv);
-//             printf("Valor: %.2f\n", entrada.valor);
-//             printf("-------------------------\n");
-//         }
-//     }
+    printf("Relatório de Vendas (Filtrado por Valor Total: %s):\n", valor);
+    printf("-------------------------\n");
 
-//     if (!encontrado) {
-//         printf("Nenhuma venda encontrada com o valor total: %.2f\n", valorFiltro);
-//     }
+    while (fread(venda, sizeof(Venda), 1, fp)) {
+        if (strcmp(venda->valor, valor) == 0) {
+            encontrado = 1;
+            exibe_venda(venda);
+        }
+    }
 
-//     fclose(arquivo);
+    if (!encontrado) {
+        printf("Nenhuma venda encontrada com o valor total: %s\n", valor);
+    }
 
-// }
+    printf("Tecle enter para continuar...");
+    getchar();
+
+    fclose(fp);
+
+}
 

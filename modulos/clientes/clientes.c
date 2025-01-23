@@ -18,6 +18,8 @@ void modulo_clientes(void) {
             case '2':
                 cl = busca_cliente();
                 exibe_cliente(cl);
+                printf("Tecle enter para continuar...\n");
+                getchar();
                 free(cl);
                 break;
             case '3':
@@ -56,12 +58,16 @@ Cliente *cadastrar_cliente(void) {
     printf("\n");
     printf("    Informe o nome do cliente: ");
     scanf(" %55[^\n]", cln->nome);
+    getchar();
     printf("    Informe o CPF do cliente: ");
     scanf(" %12[^\n]", cln->cpf);
+    getchar();
     printf("    Informe o e-mail do cliente: ");
     scanf(" %55[^\n]", cln->email);
+    getchar();
     printf("    Informe o celular do cliente: ");
     scanf(" %12[^\n]", cln->celular);
+    getchar();
     cln->status = 'c';
     printf("Cliente cadastrado com sucesso!\n");
     printf("\n");
@@ -126,8 +132,6 @@ void exibe_cliente(Cliente *cln) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...\n");
-    getchar();
 }
 
 void exclui_cliente(Cliente *clnLido) {

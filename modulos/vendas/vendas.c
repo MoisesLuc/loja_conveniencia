@@ -19,6 +19,8 @@ void modulo_vendas(void) {
             case '2':
                 vd = busca_venda();
                 exibe_venda(vd);
+                printf("Tecle enter para continuar...\n");
+                getchar();
                 free(vd);
                 break;
             case '3':
@@ -56,24 +58,33 @@ Venda *cadastrar_venda(void) {
     printf("\n=============== Cadastrar Venda ==============\n");
     printf("\n");
     printf("    Informe o cumpom fiscal: ");
-    scanf(" %4[^\n]", vnd->cupom);
+    scanf(" %5[^\n]", vnd->cupom);
+    getchar();
     printf("    Informe o código do produto vendido: ");
     scanf(" %5[^\n]", vnd->cod_prodt);
+    getchar();
     printf("    Informe o valor da compra: ");
-    scanf(" %4[^\n]", vnd->valor);
+    scanf(" %5[^\n]", vnd->valor);
+    getchar();
     printf("    Informe a forma de pagamento: ");
     scanf(" %19[^\n]", vnd->pagamento);
+    getchar();
     vnd->status = 'c';
+    printf("\n");
+    printf("Venda cadastrada com sucesso!\n");
+    printf("\n");
+    printf("Tecle enter para continuar...\n");
+    getchar();
     return vnd;
 }
 
 void grava_venda(Venda *vnd) {
     FILE *fp = fopen("vendas.dat", "ab");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Erro ao abrir o arquivo para gravação.\n");
         exit(1);
     }
+    
     fwrite(vnd, sizeof(Venda), 1, fp);
     fclose(fp);
 }
@@ -93,10 +104,8 @@ Venda *busca_venda(void) {
     scanf(" %4[^\n]", cupom);
     getchar();
 
-    while (fread(vnd, sizeof(Venda), 1, fp))
-    {
-        if (strcmp(vnd->cupom, cupom) == 0 && vnd->status != 'd')
-        {
+    while (fread(vnd, sizeof(Venda), 1, fp)) {
+        if (strcmp(vnd->cupom, cupom) == 0 && vnd->status != 'd') {
             fclose(fp);
             return vnd;
         }
@@ -108,12 +117,10 @@ Venda *busca_venda(void) {
 }
 
 void exibe_venda(Venda *vnd) {
-    if (vnd == NULL)
-    {
+    if (vnd == NULL) {
         printf("\n= = = = = = = Venda Inexistente  = = = = = = =\n");
     }
-    else
-    {
+    else {
         printf("\n= = = = = = =  Venda Cadastrada  = = = = = = =\n");
         printf("    Cupom: %s\n", vnd->cupom);
         printf("    Produtos vendidos: %s\n", vnd->cod_prodt);
@@ -123,9 +130,6 @@ void exibe_venda(Venda *vnd) {
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
-    printf("Tecle enter para continuar...");
-    getchar();
-
 }
 
 void exclui_venda(Venda *vndLido) {
