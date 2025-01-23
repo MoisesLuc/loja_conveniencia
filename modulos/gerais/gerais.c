@@ -69,6 +69,9 @@ void informacoes_da_equipe(void) {
     printf("||     Moisés Lucena de OLiveira                                  ||\n");
     printf("||     Github: https://github.com/MoisesLuc                       ||\n");
     printf("||                                                                ||\n");
+    printf("||     Isaque Guimarães Carreiro                                  ||\n");
+    printf("||     Github: https://github.com/Isaqueguicar                    ||\n");
+    printf("||                                                                ||\n");
     printf("|==================================================================|\n");
     printf("\n");
     printf("| Tecle <ENTER> para continuar...\n");
