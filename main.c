@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "modulos/gerais/gerais.h"
-#include "modulos/produtos/produtos.h"
-#include "modulos/clientes/clientes.h"
-#include "modulos/vendas/vendas.h"
-#include "modulos/relatorios/relatorios.h"
+#include "./modulos/gerais/gerais.h"
+#include "./modulos/produtos/produtos.h"
+#include "./modulos/clientes/clientes.h"
+#include "./modulos/vendas/vendas.h"
+#include "./modulos/relatorios/relatorios.h"
 
 int main(void) {
     char  op;
@@ -20,7 +20,7 @@ int main(void) {
         } else if (op == '3') {
             modulo_vendas();
         } else if (op == '4') {
-            modulo_relatorios();
+            modulo_relatorios(); 
         } else if (op == '5') {
             informacoes_gerais();
         } else if (op == '6') {

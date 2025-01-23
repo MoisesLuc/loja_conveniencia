@@ -1,3 +1,6 @@
+#ifndef PRODUTOS_H
+#define PRODUTO_H
+
 typedef struct produto Produto;
 
 struct produto {
@@ -19,5 +22,7 @@ void lista_produto(void);
 void exclui_produto(Produto* pdtLido);
 void regrava_produto(Produto* pdt);
 void atualiza_produto(void);
+
+#endif
 
 
