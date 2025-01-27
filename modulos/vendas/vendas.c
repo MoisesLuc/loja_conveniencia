@@ -117,19 +117,40 @@ Venda *busca_venda(void) {
 }
 
 void exibe_venda(Venda *vnd) {
+    FILE* fp = fopen("produtos.dat", "rb");
+    Produto* pdt = (Produto*) malloc (sizeof(Produto));
+    char nomeproduto[55];
+
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        free(pdt);
+    }
+
+    if (vnd != NULL) {
+        while(fread(pdt, sizeof(Produto), 1, fp)) {
+            if (strcmp(vnd->cod_prodt, pdt->codigo) == 0) {
+                strcpy(nomeproduto, pdt->nome);
+                break;
+            }
+        }
+    }
+
     if (vnd == NULL) {
         printf("\n= = = = = = = Venda Inexistente  = = = = = = =\n");
     }
     else {
         printf("\n= = = = = = =  Venda Cadastrada  = = = = = = =\n");
         printf("    Cupom: %s\n", vnd->cupom);
-        printf("    Produtos vendidos: %s\n", vnd->cod_prodt);
+        printf("    Produtos vendidos: %s\n", nomeproduto);
         printf("    Total: %s\n", vnd->valor);
         printf("    Forma de pagamento: %s\n", vnd->pagamento);
         printf("    Situação: %s\n", (vnd->status == 'c') ? "Cadastrada" : "Desconhecida");
         printf("\n= = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
     printf("\n");
+
+    free(pdt);
+    fclose(fp);
 }
 
 void exclui_venda(Venda *vndLido) {
